@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue-cli,vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景在vue-cli3的项目中，系统自动配置了如下信息： 12npm run serve：process.env.NODE_ENV=‘development’；npm run build：process.env.NODE_ENV=‘production’； 但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要">
+<meta name="keywords" content="vue-cli,vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-cli-3区分环境运行&#x2F;打包">
+<meta property="og:url" content="http://zhangxuchuan827.top/2019/05/05/vue-cli-3区分环境运行-打包/index.html">
+<meta property="og:site_name" content="zhangxuchuan&#39;s blog">
+<meta property="og:description" content="背景在vue-cli3的项目中，系统自动配置了如下信息： 12npm run serve：process.env.NODE_ENV=‘development’；npm run build：process.env.NODE_ENV=‘production’； 但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cdn.zhangxuchuan.top/2019-5-5-下午1:04:39.png">
+<meta property="og:updated_time" content="2019-05-05T05:32:37.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue-cli-3区分环境运行&#x2F;打包">
+<meta name="twitter:description" content="背景在vue-cli3的项目中，系统自动配置了如下信息： 12npm run serve：process.env.NODE_ENV=‘development’；npm run build：process.env.NODE_ENV=‘production’； 但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要">
+<meta name="twitter:image" content="http://cdn.zhangxuchuan.top/2019-5-5-下午1:04:39.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhangxuchuan827.top/2019/05/05/vue-cli-3区分环境运行-打包/"/>
+
+
+
+
+
+  <title>vue-cli-3区分环境运行/打包 | zhangxuchuan's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhangxuchuan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing's impossible.</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangxuchuan827.top/2019/05/05/vue-cli-3区分环境运行-打包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangxuchuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhangxuchuan's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">vue-cli-3区分环境运行/打包</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T12:52:50+08:00">
+                2019-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在vue-cli3的项目中，系统自动配置了如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run serve：process.env.NODE_ENV=‘development’；</span><br><span class="line">npm run build：process.env.NODE_ENV=‘production’；</span><br></pre></td></tr></table></figure>
+<p>但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要自己增加环境配置。</p>
+<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="1-配置package-json"><a href="#1-配置package-json" class="headerlink" title="1.配置package.json"></a>1.配置<em>package.json</em></h3><p>如代码所示，我们在scripts中新增两项<code>dev-serve</code>和<code>dev-build</code>，而最后的–mode devserve则是我们过会要添加的配置文件的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;serve&quot;: &quot;vue-cli-service serve&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;vue-cli-service build&quot;,</span><br><span class="line">    &quot;lint&quot;: &quot;vue-cli-service lint&quot;</span><br><span class="line">    &quot;dev-serve&quot;: &quot;vue-cli-service serve --mode devserve&quot;,</span><br><span class="line">    &quot;dev-build&quot;: &quot;vue-cli-service build --mode devbuild&quot;,</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–mode    指定环境模式 (默认值：serve:development; build:production)</p>
+</blockquote>
+<h3 id="2-增加环境变量的配置文件"><a href="#2-增加环境变量的配置文件" class="headerlink" title="2.增加环境变量的配置文件"></a>2.增加环境变量的配置文件</h3><p>如图所示，在根目录增加了<code>.env.build</code>、<code>.env.serve</code>、<code>.env.devbuild</code>、<code>.env.devserve</code></p>
+<p><img src="http://cdn.zhangxuchuan.top/2019-5-5-下午1:04:39.png" alt="代码结构"></p>
+<p>文件内容如下，需要根据不同的环境修改配置，这里的<em>VUE_APP_RUN_MODE</em>就是我们之后要使用的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=&apos;development&apos;</span><br><span class="line">VUE_APP_RUN_MODE=&apos;debug&apos;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>环境加载属性</p>
+<p>为一个特定模式准备的环境文件的 (例如 .env.production) 将会比一般的环境文件 (例如 .env) 拥有更高的优先级。</p>
+<p>此外，Vue CLI 启动时已经存在的环境变量拥有最高优先级，并不会被 .env 文件覆写。</p>
+<p>只有以 VUE_APP_ 开头的变量会被 webpack.DefinePlugin 静态嵌入到客户端侧的包中。你可以在应用的代码中这样访问它们：</p>
+</blockquote>
+<h3 id="3-修改程序入口main-js"><a href="#3-修改程序入口main-js" class="headerlink" title="3.修改程序入口main.js"></a>3.修改程序入口<em>main.js</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line">import router from &apos;./router&apos;</span><br><span class="line">const HTTP = require(&apos;@/plugins/Http.js&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if (process.env.VUE_APP_RUN_MODE === &apos;release&apos;) &#123;</span><br><span class="line">  // 正式环境的配置项</span><br><span class="line">  Vue.config.productionTip = true</span><br><span class="line">  HTTP.debug = false</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  // 测试环境的配置项</span><br><span class="line">  Vue.config.productionTip = false</span><br><span class="line">  HTTP.debug = true</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  render: h =&gt; h(App)</span><br><span class="line">&#125;).$mount(&apos;#app&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="4-如需-修改vue-config-js"><a href="#4-如需-修改vue-config-js" class="headerlink" title="4.(如需)修改vue.config.js"></a>4.(如需)修改<em>vue.config.js</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  /** 区分打包环境与开发环境</span><br><span class="line">   * process.env.NODE_ENV===&apos;production&apos;  (打包环境)</span><br><span class="line">   * process.env.NODE_ENV===&apos;development&apos; (开发环境)</span><br><span class="line">   * publicPath: process.env.NODE_ENV===&apos;production&apos;?&apos;/share/front&apos;:&apos;front/&apos;,</span><br><span class="line">   */</span><br><span class="line"></span><br><span class="line">  publicPath: process.env.NODE_ENV===&apos;production&apos;?&apos;/share/front/&apos;:&apos;/&apos;,</span><br><span class="line">  outputDir: &apos;dist&apos;,</span><br><span class="line">  runtimeCompiler: false,</span><br><span class="line">  transpileDependencies: [</span><br><span class="line">    /* string or regex */</span><br><span class="line">  ],</span><br><span class="line">  productionSourceMap: false,</span><br><span class="line">  chainWebpack: () =&gt; &#123; &#125;,</span><br><span class="line">  configureWebpack: () =&gt; &#123; &#125;,</span><br><span class="line">  css: &#123;</span><br><span class="line">    extract: true,</span><br><span class="line">    sourceMap: false,</span><br><span class="line">    loaderOptions: &#123;&#125;,</span><br><span class="line">    modules: false</span><br><span class="line">  &#125;,</span><br><span class="line">  parallel: require(&apos;os&apos;).cpus().length &gt; 1,</span><br><span class="line">  pwa: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    open: process.platform === &apos;darwin&apos;,</span><br><span class="line">    disableHostCheck: false,</span><br><span class="line">    host: &apos;localhost&apos;,</span><br><span class="line">    port: 8088,</span><br><span class="line">    https: false,</span><br><span class="line">    hotOnly: false,</span><br><span class="line">    proxy: &#123;</span><br><span class="line">      &apos;/api&apos;: &#123;</span><br><span class="line">        target: process.env.VUE_APP_RUN_MODE===&apos;release&apos;?&apos;https://hostname/api/&apos;:&apos;http://10.21.100.1/api/&apos;,</span><br><span class="line">        ws: true,</span><br><span class="line">        changeOrigin: true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    before: app =&gt; &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  pluginOptions: &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-运行"><a href="#6-运行" class="headerlink" title="6.运行"></a>6.运行</h3><ul>
+<li>到这里所有的配置就完成了，我们就可以运行我们的配置命令(package.json的scripts中的命令)进入不同的环境、构建不同的包，如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 生产服务调试运行</span><br><span class="line">npm run serve</span><br><span class="line"></span><br><span class="line">// 测试环境调试运行</span><br><span class="line">npm run dev-serve</span><br><span class="line"></span><br><span class="line">// 生产服务打包</span><br><span class="line">npm run build</span><br><span class="line"></span><br><span class="line">// 测试服务打包</span><br><span class="line">npm run dev-build</span><br></pre></td></tr></table></figure>
+<h2 id="有关文档说明"><a href="#有关文档说明" class="headerlink" title="有关文档说明"></a>有关文档说明</h2><p><a href="https://cli.vuejs.org/zh/guide/cli-service.html" target="_blank" rel="noopener">vue-cli-3文档 #CLI 服务</a></p>
+<p><a href="https://cli.vuejs.org/zh/guide/mode-and-env.html" target="_blank" rel="noopener">vue-cli-3文档 #环境变量和模式</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue-cli/" rel="tag"># vue-cli</a>
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/21/iosDeveloperSpecification/" rel="next" title="iOS工程开发规范（Swift&ObjC)">
+                <i class="fa fa-chevron-left"></i> iOS工程开发规范（Swift&ObjC)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangxuchuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangxuchuan827" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置过程"><span class="nav-number">2.</span> <span class="nav-text">配置过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置package-json"><span class="nav-number">2.1.</span> <span class="nav-text">1.配置package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-增加环境变量的配置文件"><span class="nav-number">2.2.</span> <span class="nav-text">2.增加环境变量的配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修改程序入口main-js"><span class="nav-number">2.3.</span> <span class="nav-text">3.修改程序入口main.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-如需-修改vue-config-js"><span class="nav-number">2.4.</span> <span class="nav-text">4.(如需)修改vue.config.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-运行"><span class="nav-number">2.5.</span> <span class="nav-text">6.运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有关文档说明"><span class="nav-number">3.</span> <span class="nav-text">有关文档说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangxuchuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

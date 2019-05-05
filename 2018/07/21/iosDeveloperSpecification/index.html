@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,Objective-c,swift," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、编码风格1.缩进。使用XCode默认Tab缩进（每单位4个空格长度） 2.运算符格式。运算左右两侧必须加同等空格  不推荐使用++、–运算符  123a = a + bcount += 1max = a &amp;gt; b ? a : b 3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐 123int func() &amp;#123;    /* ....  */">
+<meta name="keywords" content="iOS,Objective-c,swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS工程开发规范（Swift&amp;ObjC)">
+<meta property="og:url" content="http://zhangxuchuan827.top/2018/07/21/iosDeveloperSpecification/index.html">
+<meta property="og:site_name" content="zhangxuchuan&#39;s blog">
+<meta property="og:description" content="一、编码风格1.缩进。使用XCode默认Tab缩进（每单位4个空格长度） 2.运算符格式。运算左右两侧必须加同等空格  不推荐使用++、–运算符  123a = a + bcount += 1max = a &amp;gt; b ? a : b 3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐 123int func() &amp;#123;    /* ....  */">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-05T05:48:40.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS工程开发规范（Swift&amp;ObjC)">
+<meta name="twitter:description" content="一、编码风格1.缩进。使用XCode默认Tab缩进（每单位4个空格长度） 2.运算符格式。运算左右两侧必须加同等空格  不推荐使用++、–运算符  123a = a + bcount += 1max = a &amp;gt; b ? a : b 3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐 123int func() &amp;#123;    /* ....  */">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhangxuchuan827.top/2018/07/21/iosDeveloperSpecification/"/>
+
+
+
+
+
+  <title>iOS工程开发规范（Swift&ObjC) | zhangxuchuan's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhangxuchuan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing's impossible.</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangxuchuan827.top/2018/07/21/iosDeveloperSpecification/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangxuchuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhangxuchuan's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">iOS工程开发规范（Swift&ObjC)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-21T13:25:24+08:00">
+                2018-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、编码风格"><a href="#一、编码风格" class="headerlink" title="一、编码风格"></a>一、编码风格</h2><p>1.缩进。使用XCode默认Tab缩进（每单位4个空格长度）</p>
+<p>2.运算符格式。运算左右两侧必须加同等空格</p>
+<blockquote>
+<p>不推荐使用++、–运算符</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a + b</span><br><span class="line">count += 1</span><br><span class="line">max = a &gt; b ? a : b</span><br></pre></td></tr></table></figure>
+<p>3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int func() &#123;</span><br><span class="line">    /* ....  */    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)foo:(id)arge &#123;</span><br><span class="line">	/* ....  */  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (x)&#123; </span><br><span class="line">	/* ... */  </span><br><span class="line">&#125;else if (y)&#123;</span><br><span class="line">	/* ... */  </span><br><span class="line">&#125;else&#123;</span><br><span class="line">	/* ... */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    /* ... */</span><br><span class="line">&#125;while(x);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">switch (x)&#123;</span><br><span class="line">case 1 :</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">	</span><br><span class="line">case 1 :</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">	</span><br><span class="line">default:	</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.空格。<code>-/+</code> 后边和方法名后边应当加一个空格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)foo &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、宏定义和常量"><a href="#二、宏定义和常量" class="headerlink" title="二、宏定义和常量"></a>二、宏定义和常量</h2><p>1.使用const声明常量，不推荐用宏定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const NSString * thisIsUserDesc = @&quot;hello world&quot;;</span><br></pre></td></tr></table></figure>
+<p>2.多行的宏定义要用”do…while”来封装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#define func(a,b,c) \</span><br><span class="line">do &#123; \</span><br><span class="line">    do_something(a); \</span><br><span class="line">    do_something(b); \</span><br><span class="line">    do_something(c); \</span><br><span class="line">&#125;while(0)</span><br></pre></td></tr></table></figure>
+<p>3.定义枚举类型使用<code>NS_ENUM</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger, UISearchBarStyle) &#123;</span><br><span class="line">    UISearchBarStyleDefault,    // currently UISearchBarStyleProminent</span><br><span class="line">    UISearchBarStyleProminent,  // used my Mail, Messages and Contacts</span><br><span class="line">    UISearchBarStyleMinimal     // used by Calendar, Notes and Music</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、命名规范"><a href="#三、命名规范" class="headerlink" title="三、命名规范"></a>三、命名规范</h2><p>1.使用匈牙利+小驼峰命名法，可以清楚的表明起作用；</p>
+<blockquote>
+<p>匈牙利命名：<br>开头字母用变量类型的缩写，其余部分用变量的英文或英文的缩写，要求每个单词第一个字母大写。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface userClass</span><br><span class="line"></span><br><span class="line">///用户总数</span><br><span class="line">@property (nonatomic,assgin) NSInteger userCount;</span><br><span class="line">///用户投资描述  </span><br><span class="line">@property (nonatomic,strong) NSString * userInvestmentDescription;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>2.成员变量必须加下换线前缀，局部变量命名不能有下划线前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@interface userClass</span><br><span class="line">&#123;</span><br><span class="line"> 	NSInteger _userCount;</span><br><span class="line"> 	NSString * _userInvestmentDescription;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>3.方法名要尽量将功能描述清楚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)insertItemToPageDataSource:(id)item&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getUserKeyFromCache() -&gt; Int &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.不同功能的文件名酌情加前缀<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Model类型 : MHistory.h/m</span><br><span class="line">API请求类型 : APIHistory.h/m</span><br><span class="line">ViewModel类型 : VMHistory.h/m</span><br></pre></td></tr></table></figure></p>
+<h2 id="四、常见代码功能规范"><a href="#四、常见代码功能规范" class="headerlink" title="四、常见代码功能规范"></a>四、常见代码功能规范</h2><p>1.单例</p>
+<blockquote>
+<p>单例必须命名为 <code>shared</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">swift:</span><br><span class="line"></span><br><span class="line">class UserClass: NSObject &#123;</span><br><span class="line">    public static let shared = UserClass()</span><br><span class="line">    override init() &#123;</span><br><span class="line">        /* 初始化操作 */</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OC:</span><br><span class="line"></span><br><span class="line">static UserClass * sharedObj = nil;</span><br><span class="line"></span><br><span class="line">+ (instancetype)shared &#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        sharedObj = [[NetSetvices alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return sharedObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.Block和闭包</p>
+<blockquote>
+<p>闭包和Block中建议使用弱变量避免内存泄露</p>
+<p>不能在block中直接使用成员变量，必须使用<code>self-&gt;_property</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">swift-闭包</span><br><span class="line"></span><br><span class="line">leftDataSource.map &#123; [weak self] (model) -&gt; ModelClass in</span><br><span class="line">     return model</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OC-Block</span><br><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">[shared addBlock:^(id status) &#123;</span><br><span class="line">	weakSelf.XXX = a</span><br><span class="line">	weakSelf-&gt;_a = a</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//若引用了相关的组件可使用</span><br><span class="line"></span><br><span class="line">@weakify(self)</span><br><span class="line">[shared addBlock:^(id status) &#123;</span><br><span class="line">	@strongify(self)        </span><br><span class="line">	self.XXX = a</span><br><span class="line">	self-&gt;_a = a</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>3.FMDB和SQLite</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Tips:</span><br><span class="line">推荐使用FMDB二次封装DBManager</span><br><span class="line">用户持久化信息和下载文件存放Documents目录下，缓存文件和临时表放Tmp目录</span><br><span class="line">FMDB打开数据库连接后，无需关闭</span><br><span class="line">增删改操作建议使用异步线程执行</span><br><span class="line"></span><br><span class="line">数据库命名规范:</span><br><span class="line">表 : 全小写,使用tb_前缀( tb_name)</span><br><span class="line">列 : 全小写,使用下划线分隔(user_order_list)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (void)insertAndUpdateAndDelete &#123;</span><br><span class="line">	[_fmDataBaseQueue inDatabase:^(FMDatabase *db) &#123;</span><br><span class="line">       if ([db open]) &#123;</span><br><span class="line">           BOOL result = [db executeUpdate:sql];</span><br><span class="line">           if (!result) &#123;</span><br><span class="line">           		NSLog(@&quot;存储失败&quot;);</span><br><span class="line">        	&#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (Model *)Query &#123;</span><br><span class="line">    Model * model = [Model new];</span><br><span class="line">    if ([_database open]) &#123;</span><br><span class="line">        FMResultSet * result = [_database executeQuery:sql];</span><br><span class="line">        while ([result next]) &#123;</span><br><span class="line">            model.a = [result intForColumn:@&quot;a&quot;];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.Model</p>
+<blockquote>
+<p>Model中的对象属性必须做初始化或者是懒加载操作，避免调用时出现空指针闪退</p>
+<p>需要转换成其他类型的属性，则使用方法调用结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@interface Model</span><br><span class="line"></span><br><span class="line">///创建时间</span><br><span class="line">@property (nonatomic,strong) NSString * createTime;</span><br><span class="line"></span><br><span class="line">///获取Date类型的时间</span><br><span class="line">-(NSDate *)createTimeAsDate;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>5.Block</p>
+<blockquote>
+<p>若使用单变量没有传递参数和返回值的Block类型，则直接使用<code>dispatch_block_t</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic,copy) dispatch_block_t block;</span><br></pre></td></tr></table></figure>
+<p>6.数组</p>
+<blockquote>
+<p>数组 NSArray / Array</p>
+<blockquote>
+<p>数组使用index取值前必须加越界判断，防止出现读取越界崩溃。</p>
+<p>向数组增加数据前一定要做非空判断</p>
+<p>多线程读写数据资源时使用原子性和锁</p>
+</blockquote>
+</blockquote>
+<p>7.赋值和判断</p>
+<blockquote>
+<p>关于if、while的条件,不建议将赋值和判断混在一起<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">反例:</span><br><span class="line">if ( i = 10 )&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">建议:</span><br><span class="line"></span><br><span class="line">i = 10;</span><br><span class="line">if ( i &gt; 0 )&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h2><blockquote>
+<p>关于方法交换要慎重使用 ，避免过多使用导致性能下降和运行时内存错误</p>
+<p>使用类别增加属性的时候，要慎重选择内存管理类型</p>
+</blockquote>
+<h2 id="MVVM架构"><a href="#MVVM架构" class="headerlink" title="MVVM架构"></a>MVVM架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">M : Model - 存储数据模型和基本数据类型的转换</span><br><span class="line">V : View - 视图，文本内容格式化显示</span><br><span class="line">VM : ViewModel - 网络请求和数据处理等 </span><br><span class="line">C : Controller - 连接器，处理页面跳转逻辑</span><br></pre></td></tr></table></figure>
+<h2 id="组件化开发原则"><a href="#组件化开发原则" class="headerlink" title="组件化开发原则"></a>组件化开发原则</h2><p>1.尽量以外挂形式开发，不入侵业务代码</p>
+<p>2.多处复用的视图组件应单独做文件封装</p>
+<p>3.代码超过百行的视图组件应单独做封装</p>
+<h2 id="服务化和封装性"><a href="#服务化和封装性" class="headerlink" title="服务化和封装性"></a>服务化和封装性</h2><p>1.APP基础服务应当做全局单例服务</p>
+<blockquote>
+<p>网络请求、缓存组件、用户中心、消息盒子、数据库服务等</p>
+</blockquote>
+<p>2.多处使用的定制化视图控制器应封装基类继承</p>
+<blockquote>
+<p>UIViewController、UINavigationController、UITabbarController、UITableViewController、WebViewController等</p>
+</blockquote>
+<h2 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h2><p>1.使用开源库应当确认源码中不存在后门等操作</p>
+<p>2.测试开源库避免存在内存泄露和bug</p>
+<h2 id="注释和标记"><a href="#注释和标记" class="headerlink" title="注释和标记"></a>注释和标记</h2><p>1.单行注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">///注释1</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.多行注释 。 快捷键 <code>Command + Option + /</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * We need this to calculate the bar ratio. This can sleep,</span><br><span class="line"> * so do not call while holding a lock </span><br><span class="line"> */</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">  ...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.标记 Mark</p>
+<blockquote>
+<p>当文件中方法功能多的时候使用mark做方法分类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark – Life Cycle</span><br><span class="line"></span><br><span class="line">#pragma mark - Events</span><br><span class="line"></span><br><span class="line">#pragma mark – Private Methods</span><br><span class="line"></span><br><span class="line">#pragma mark - UITextFieldDelegate</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/Objective-c/" rel="tag"># Objective-c</a>
+          
+            <a href="/tags/swift/" rel="tag"># swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/08/ios-confusion-17-07-15/" rel="next" title="OC工程代码混淆加密（方法名混淆）">
+                <i class="fa fa-chevron-left"></i> OC工程代码混淆加密（方法名混淆）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/05/vue-cli-3区分环境运行-打包/" rel="prev" title="vue-cli-3区分环境运行/打包">
+                vue-cli-3区分环境运行/打包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangxuchuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangxuchuan827" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、编码风格"><span class="nav-number">1.</span> <span class="nav-text">一、编码风格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、宏定义和常量"><span class="nav-number">2.</span> <span class="nav-text">二、宏定义和常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、命名规范"><span class="nav-number">3.</span> <span class="nav-text">三、命名规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、常见代码功能规范"><span class="nav-number">4.</span> <span class="nav-text">四、常见代码功能规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime"><span class="nav-number">5.</span> <span class="nav-text">Runtime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MVVM架构"><span class="nav-number">6.</span> <span class="nav-text">MVVM架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化开发原则"><span class="nav-number">7.</span> <span class="nav-text">组件化开发原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务化和封装性"><span class="nav-number">8.</span> <span class="nav-text">服务化和封装性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方库"><span class="nav-number">9.</span> <span class="nav-text">第三方库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注释和标记"><span class="nav-number">10.</span> <span class="nav-text">注释和标记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangxuchuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

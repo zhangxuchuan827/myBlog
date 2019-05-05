@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="shadowsocks,科学上网," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="From ：http://blog.csdn.net/f59130/article/details/74014415  1、背景科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。前提是得有信用卡。  VPN">
+<meta name="keywords" content="shadowsocks,科学上网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Shadowsocks">
+<meta property="og:url" content="http://zhangxuchuan827.top/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/index.html">
+<meta property="og:site_name" content="zhangxuchuan&#39;s blog">
+<meta property="og:description" content="From ：http://blog.csdn.net/f59130/article/details/74014415  1、背景科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。前提是得有信用卡。  VPN">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-f09cb7f82525e891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-c71dffe71766925b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-8e05f27e6c7344f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-2716ad552530ce18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-17a201eb78316b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-c04c541d52d392c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-229f82ed630dd3a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-73e4bc6a97846b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-d022800585aff62e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-c962f4a7dd2a9b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-bc814395dd202e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-78031132c229d1de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/4324380-bfa4aa4009e2fc13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-11-22T02:05:26.120Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建Shadowsocks">
+<meta name="twitter:description" content="From ：http://blog.csdn.net/f59130/article/details/74014415  1、背景科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。前提是得有信用卡。  VPN">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/4324380-f09cb7f82525e891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhangxuchuan827.top/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/"/>
+
+
+
+
+
+  <title>搭建Shadowsocks | zhangxuchuan's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhangxuchuan's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing's impossible.</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zhangxuchuan827.top/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="zhangxuchuan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhangxuchuan's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">搭建Shadowsocks</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T15:22:40+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/科学上网/" itemprop="url" rel="index">
+                    <span itemprop="name">科学上网</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>From ：<a href="http://blog.csdn.net/f59130/article/details/74014415" target="_blank" rel="noopener">http://blog.csdn.net/f59130/article/details/74014415</a></p>
+</blockquote>
+<h2 id="1、背景"><a href="#1、背景" class="headerlink" title="1、背景"></a>1、背景</h2><p>科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。<strong>前提是得有信用卡</strong>。</p>
+<ul>
+<li>VPN：在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。</li>
+<li>VPS：Virtual Private Server 虚拟专用服务器技术，将一台服务器分割成多个虚拟专享服务器的优质服务。实现VPS的技术分为容器技术，和虚拟化技术。<strong>简单理解VPS就是一台拥有公网IP的服务器。</strong></li>
+<li>AWS：即Amazon Web Services，是亚马逊（Amazon）公司的云计算IaaS和PaaS平台服务。</li>
+</ul>
+<h2 id="2、注册AWS"><a href="#2、注册AWS" class="headerlink" title="2、注册AWS"></a>2、注册AWS</h2><p>到<a href="http://aws.amazon.com/cn/" target="_blank" rel="noopener">AWS</a>进行注册。注册过程中需要绑定信用卡，会扣<code>$1</code>(预授权)。但需要注意的是，在没有用超的情况下，是免费的，作为SS服务器，只能是流量超额会导致（<code>15GB/月</code>）。注册过程中，需要填写手机号，会有国际长途（手机号默认开通）打进来，告诉你验证码。</p>
+<h2 id="3、创建AWS实例"><a href="#3、创建AWS实例" class="headerlink" title="3、创建AWS实例"></a>3、创建AWS实例</h2><h3 id="1、登录AWS控制台，点击EC2（Elastic-Compute-Cloud）"><a href="#1、登录AWS控制台，点击EC2（Elastic-Compute-Cloud）" class="headerlink" title="1、登录AWS控制台，点击EC2（Elastic Compute Cloud）"></a>1、登录AWS控制台，点击EC2（Elastic Compute Cloud）</h3><p><img src="http://upload-images.jianshu.io/upload_images/4324380-f09cb7f82525e891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="EC2"> <strong>备注</strong>：第一次开通需要时间，最长不超过24小时。 <img src="http://upload-images.jianshu.io/upload_images/4324380-c71dffe71766925b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="开通AWS"></p>
+<h3 id="2、启动虚拟机"><a href="#2、启动虚拟机" class="headerlink" title="2、启动虚拟机"></a>2、启动虚拟机</h3><p><img src="http://upload-images.jianshu.io/upload_images/4324380-8e05f27e6c7344f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启动虚拟机"> <img src="http://upload-images.jianshu.io/upload_images/4324380-2716ad552530ce18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启动实例"> 这里，点击<strong>高级EC2启动实例向导</strong>进行个性化配置。</p>
+<h3 id="3、定制化服务器类型"><a href="#3、定制化服务器类型" class="headerlink" title="3、定制化服务器类型"></a>3、定制化服务器类型</h3><ul>
+<li>选择Amazon 系统映像(AMI) 这里选择，Amazon Linux AMI、RedHat、Ubuntu都行。本文选择的是Ubuntu。 <img src="http://upload-images.jianshu.io/upload_images/4324380-17a201eb78316b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AMI"></li>
+<li>选择实例类型</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/4324380-c04c541d52d392c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实例类型"></p>
+<ul>
+<li>标签实例 图中标出的3-4两步直接默认配置就行。 <img src="http://upload-images.jianshu.io/upload_images/4324380-229f82ed630dd3a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>配置安全组 这里先配置所有流量和端口开放。 <img src="http://upload-images.jianshu.io/upload_images/4324380-73e4bc6a97846b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置安全组"></li>
+<li>生成秘钥对 <img src="http://upload-images.jianshu.io/upload_images/4324380-d022800585aff62e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="审核"></li>
+<li>创建账单警报 <img src="http://upload-images.jianshu.io/upload_images/4324380-c962f4a7dd2a9b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="账单警报.png"></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/4324380-bc814395dd202e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="接收账单警报"></p>
+<h2 id="3、登录服务器"><a href="#3、登录服务器" class="headerlink" title="3、登录服务器"></a>3、登录服务器</h2><p>定制完成后，就可以远程登录了。在实例上右击，点击连接。 <img src="http://upload-images.jianshu.io/upload_images/4324380-78031132c229d1de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="连接"> <img src="http://upload-images.jianshu.io/upload_images/4324380-bfa4aa4009e2fc13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="连接到实例"> 下面主要是通过Xshell连接到EC2，具体看<a href="http://jingyan.baidu.com/article/a3a3f811d5fc338da2eb8a00.html" target="_blank" rel="noopener">教程</a>。<strong>注意</strong>：用户名那里填写<strong>ubuntu</strong>，否则会出现 <em>所选的用户密钥未在远程主机上注册 请再试一次</em>。</p>
+<h2 id="4、安装Shadowsocks"><a href="#4、安装Shadowsocks" class="headerlink" title="4、安装Shadowsocks"></a>4、安装Shadowsocks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 获取root权限</span><br><span class="line">sudo -s</span><br><span class="line"># 更新apt-get</span><br><span class="line">apt-get update</span><br><span class="line"># 安装python包管理工具</span><br><span class="line">apt-get install python-setuptools</span><br><span class="line">apt-get install python-pip</span><br><span class="line"># 安装shadowsocks</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<h2 id="5、配置Shadowsocks"><a href="#5、配置Shadowsocks" class="headerlink" title="5、配置Shadowsocks"></a>5、配置Shadowsocks</h2><p>创建配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/shadowsocks</span><br><span class="line">vim /etc/shadowsocks/ss.json</span><br></pre></td></tr></table></figure>
+<p>配置文件内容(任选一种，当配置文件发生改变则需要重新启动ss服务才可生效)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">单帐号：</span><br><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;server_port&quot;:8000,</span><br><span class="line">&quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;password&quot;:&quot;pwd&quot;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">&quot;fast_open&quot;:false,</span><br><span class="line">&quot;workers&quot;: 1</span><br><span class="line">&#125;</span><br><span class="line">多帐号:</span><br><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;port_password&quot;: &#123;</span><br><span class="line"> &quot;8000&quot;: &quot;pwd1&quot; ,</span><br><span class="line"> &quot;8001&quot;: &quot;pwd2&quot; ,</span><br><span class="line"> &quot;8002&quot;: &quot;pwd3&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">&quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置字段</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> server</td>
+<td>服务端监听地址(IPv4或IPv6)</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>服务端端口</td>
+</tr>
+<tr>
+<td>local_address</td>
+<td>本地监听地址，缺省为127.0.0.1</td>
+</tr>
+<tr>
+<td>local_port</td>
+<td>本地监听端口</td>
+</tr>
+<tr>
+<td>password</td>
+<td>用以加密的密匙</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>超时时间（秒）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>加密方法，默认为aes-256-cfb，更多请查阅<a href="https://github.com/shadowsocks/shadowsocks/wiki/Encryption" target="_blank" rel="noopener">Encryption</a></td>
+</tr>
+<tr>
+<td>fast_open</td>
+<td>是否启用<a href="https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open" target="_blank" rel="noopener">TCP-Fast-Open</a>，true或者false</td>
+</tr>
+<tr>
+<td>workers</td>
+<td><a href="https://github.com/shadowsocks/shadowsocks/wiki/Workers" target="_blank" rel="noopener">worker数量</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="6、启动Shadowsocks"><a href="#6、启动Shadowsocks" class="headerlink" title="6、启动Shadowsocks"></a>6、启动Shadowsocks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">启动：sudo ssserver -c /etc/shadowsocks/ss.json -d start</span><br><span class="line">停止：sudo ssserver -c /etc/shadowsocks/ss.json -d stop </span><br><span class="line">重启：sudo ssserver -c /etc/shadowsocks/ss.json -d restart</span><br></pre></td></tr></table></figure>
+<h2 id="7、设置SS为开机自启动"><a href="#7、设置SS为开机自启动" class="headerlink" title="7、设置SS为开机自启动"></a>7、设置SS为开机自启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br><span class="line"></span><br><span class="line">添加如下命令：</span><br><span class="line">sudo ssserver -c /etc/shadowsocks/ss.json -d start</span><br></pre></td></tr></table></figure>
+<h2 id="8、本地设备连接到Shadowsocks服务器"><a href="#8、本地设备连接到Shadowsocks服务器" class="headerlink" title="8、本地设备连接到Shadowsocks服务器"></a>8、本地设备连接到Shadowsocks服务器</h2><p>到GitHub下载最新的客户端：<br><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">Windows客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-iOS/releases" target="_blank" rel="noopener">macOS客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-qt5/releases" target="_blank" rel="noopener">Linux客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-android/releases" target="_blank" rel="noopener">Android客户端</a> </p>
+<p>安装之后，添加服务器，地址为AWS的外网地址，登录AWS控制台，查看正在运行中的实例，找到公有ip。 端口号为刚才配置Shadowsocks服务器时的端口号，密码也是刚才配置的(当然密码可以自行设置)，设置完之后保存。 关于Windows下使用Shadowsocks的方法，还请自行搜索。</p>
+<h2 id="9、防止AWS到期或其他原因扣费"><a href="#9、防止AWS到期或其他原因扣费" class="headerlink" title="9、防止AWS到期或其他原因扣费"></a>9、防止AWS到期或其他原因扣费</h2><p>为了防止流量超出或者此悲剧发生。 需要设置账单警报，前面已经介绍了。 还有就是在<strong>安全组</strong>下面设置入站和出站规则。 一言以蔽之，到期前把你账户下所有AWS实例关闭并销毁。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+            <a href="/tags/科学上网/" rel="tag"># 科学上网</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/13/ubuntu16.04makeswfit/" rel="next" title="Ubuntu16.04安装swift4.1">
+                <i class="fa fa-chevron-left"></i> Ubuntu16.04安装swift4.1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/13/iosDEveloperDefine/" rel="prev" title="XCode/iOS开发相关宏定义">
+                XCode/iOS开发相关宏定义 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">zhangxuchuan</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhangxuchuan827" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、背景"><span class="nav-number">1.</span> <span class="nav-text">1、背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、注册AWS"><span class="nav-number">2.</span> <span class="nav-text">2、注册AWS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、创建AWS实例"><span class="nav-number">3.</span> <span class="nav-text">3、创建AWS实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、登录AWS控制台，点击EC2（Elastic-Compute-Cloud）"><span class="nav-number">3.1.</span> <span class="nav-text">1、登录AWS控制台，点击EC2（Elastic Compute Cloud）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、启动虚拟机"><span class="nav-number">3.2.</span> <span class="nav-text">2、启动虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、定制化服务器类型"><span class="nav-number">3.3.</span> <span class="nav-text">3、定制化服务器类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、登录服务器"><span class="nav-number">4.</span> <span class="nav-text">3、登录服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、安装Shadowsocks"><span class="nav-number">5.</span> <span class="nav-text">4、安装Shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、配置Shadowsocks"><span class="nav-number">6.</span> <span class="nav-text">5、配置Shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、启动Shadowsocks"><span class="nav-number">7.</span> <span class="nav-text">6、启动Shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、设置SS为开机自启动"><span class="nav-number">8.</span> <span class="nav-text">7、设置SS为开机自启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、本地设备连接到Shadowsocks服务器"><span class="nav-number">9.</span> <span class="nav-text">8、本地设备连接到Shadowsocks服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9、防止AWS到期或其他原因扣费"><span class="nav-number">10.</span> <span class="nav-text">9、防止AWS到期或其他原因扣费</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhangxuchuan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
