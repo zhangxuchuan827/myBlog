@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="张绪川,iOS开发" />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -93,7 +93,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Gemini',
+    scheme: 'Muse',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -157,7 +157,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description">Nothing's impossible.</h1>
+        <p class="site-subtitle">Nothing's impossible.</p>
       
   </div>
 
@@ -183,26 +183,6 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
           </a>
         </li>
       
@@ -266,9 +246,9 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/05/vue-cli-3区分环境运行-打包/" itemprop="url">vue-cli-3区分环境运行/打包</a></h2>
+                <a class="post-title-link" href="/2019/05/05/vue-cli-3区分环境运行-打包/" itemprop="url">vue-cli-3区分环境运行/打包</a></h1>
         
 
         <div class="post-meta">
@@ -320,17 +300,34 @@
       
         
           
-          背景在vue-cli3的项目中，系统自动配置了如下信息：
-12npm run serve：process.env.NODE_ENV=‘development’；npm run build：process.env.NODE_ENV=‘production’；
-但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/vue-cli-3区分环境运行-打包/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在vue-cli3的项目中，系统自动配置了如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm run serve：process.env.NODE_ENV=‘development’；</span><br><span class="line">npm run build：process.env.NODE_ENV=‘production’；</span><br></pre></td></tr></table></figure>
+<p>但很多时候我们的应用可能需要构建多个环境的包，如本地调试环境、测试环境、生产环境。所以只使用系统指定的两个配置是远远不够的，这个时候我们就需要自己增加环境配置。</p>
+<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="1-配置package-json"><a href="#1-配置package-json" class="headerlink" title="1.配置package.json"></a>1.配置<em>package.json</em></h3><p>如代码所示，我们在scripts中新增两项<code>dev-serve</code>和<code>dev-build</code>，而最后的–mode devserve则是我们过会要添加的配置文件的名称</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;serve&quot;: &quot;vue-cli-service serve&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;vue-cli-service build&quot;,</span><br><span class="line">    &quot;lint&quot;: &quot;vue-cli-service lint&quot;</span><br><span class="line">    &quot;dev-serve&quot;: &quot;vue-cli-service serve --mode devserve&quot;,</span><br><span class="line">    &quot;dev-build&quot;: &quot;vue-cli-service build --mode devbuild&quot;,</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>–mode    指定环境模式 (默认值：serve:development; build:production)</p>
+</blockquote>
+<h3 id="2-增加环境变量的配置文件"><a href="#2-增加环境变量的配置文件" class="headerlink" title="2.增加环境变量的配置文件"></a>2.增加环境变量的配置文件</h3><p>如图所示，在根目录增加了<code>.env.build</code>、<code>.env.serve</code>、<code>.env.devbuild</code>、<code>.env.devserve</code></p>
+<p><img src="http://cdn.zhangxuchuan.top/2019-5-5-下午1:04:39.png" alt="代码结构"></p>
+<p>文件内容如下，需要根据不同的环境修改配置，这里的<em>VUE_APP_RUN_MODE</em>就是我们之后要使用的变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NODE_ENV=&apos;development&apos;</span><br><span class="line">VUE_APP_RUN_MODE=&apos;debug&apos;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>环境加载属性</p>
+<p>为一个特定模式准备的环境文件的 (例如 .env.production) 将会比一般的环境文件 (例如 .env) 拥有更高的优先级。</p>
+<p>此外，Vue CLI 启动时已经存在的环境变量拥有最高优先级，并不会被 .env 文件覆写。</p>
+<p>只有以 VUE_APP_ 开头的变量会被 webpack.DefinePlugin 静态嵌入到客户端侧的包中。你可以在应用的代码中这样访问它们：</p>
+</blockquote>
+<h3 id="3-修改程序入口main-js"><a href="#3-修改程序入口main-js" class="headerlink" title="3.修改程序入口main.js"></a>3.修改程序入口<em>main.js</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import App from &apos;./App.vue&apos;</span><br><span class="line">import router from &apos;./router&apos;</span><br><span class="line">const HTTP = require(&apos;@/plugins/Http.js&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if (process.env.VUE_APP_RUN_MODE === &apos;release&apos;) &#123;</span><br><span class="line">  // 正式环境的配置项</span><br><span class="line">  Vue.config.productionTip = true</span><br><span class="line">  HTTP.debug = false</span><br><span class="line">&#125; else &#123;</span><br><span class="line">  // 测试环境的配置项</span><br><span class="line">  Vue.config.productionTip = false</span><br><span class="line">  HTTP.debug = true</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  router,</span><br><span class="line">  render: h =&gt; h(App)</span><br><span class="line">&#125;).$mount(&apos;#app&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="4-如需-修改vue-config-js"><a href="#4-如需-修改vue-config-js" class="headerlink" title="4.(如需)修改vue.config.js"></a>4.(如需)修改<em>vue.config.js</em></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  /** 区分打包环境与开发环境</span><br><span class="line">   * process.env.NODE_ENV===&apos;production&apos;  (打包环境)</span><br><span class="line">   * process.env.NODE_ENV===&apos;development&apos; (开发环境)</span><br><span class="line">   * publicPath: process.env.NODE_ENV===&apos;production&apos;?&apos;/share/front&apos;:&apos;front/&apos;,</span><br><span class="line">   */</span><br><span class="line"></span><br><span class="line">  publicPath: process.env.NODE_ENV===&apos;production&apos;?&apos;/share/front/&apos;:&apos;/&apos;,</span><br><span class="line">  outputDir: &apos;dist&apos;,</span><br><span class="line">  runtimeCompiler: false,</span><br><span class="line">  transpileDependencies: [</span><br><span class="line">    /* string or regex */</span><br><span class="line">  ],</span><br><span class="line">  productionSourceMap: false,</span><br><span class="line">  chainWebpack: () =&gt; &#123; &#125;,</span><br><span class="line">  configureWebpack: () =&gt; &#123; &#125;,</span><br><span class="line">  css: &#123;</span><br><span class="line">    extract: true,</span><br><span class="line">    sourceMap: false,</span><br><span class="line">    loaderOptions: &#123;&#125;,</span><br><span class="line">    modules: false</span><br><span class="line">  &#125;,</span><br><span class="line">  parallel: require(&apos;os&apos;).cpus().length &gt; 1,</span><br><span class="line">  pwa: &#123;&#125;,</span><br><span class="line"></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    open: process.platform === &apos;darwin&apos;,</span><br><span class="line">    disableHostCheck: false,</span><br><span class="line">    host: &apos;localhost&apos;,</span><br><span class="line">    port: 8088,</span><br><span class="line">    https: false,</span><br><span class="line">    hotOnly: false,</span><br><span class="line">    proxy: &#123;</span><br><span class="line">      &apos;/api&apos;: &#123;</span><br><span class="line">        target: process.env.VUE_APP_RUN_MODE===&apos;release&apos;?&apos;https://hostname/api/&apos;:&apos;http://10.21.100.1/api/&apos;,</span><br><span class="line">        ws: true,</span><br><span class="line">        changeOrigin: true</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    before: app =&gt; &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  pluginOptions: &#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="6-运行"><a href="#6-运行" class="headerlink" title="6.运行"></a>6.运行</h3><ul>
+<li>到这里所有的配置就完成了，我们就可以运行我们的配置命令(package.json的scripts中的命令)进入不同的环境、构建不同的包，如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 生产服务调试运行</span><br><span class="line">npm run serve</span><br><span class="line"></span><br><span class="line">// 测试环境调试运行</span><br><span class="line">npm run dev-serve</span><br><span class="line"></span><br><span class="line">// 生产服务打包</span><br><span class="line">npm run build</span><br><span class="line"></span><br><span class="line">// 测试服务打包</span><br><span class="line">npm run dev-build</span><br></pre></td></tr></table></figure>
+<h2 id="有关文档说明"><a href="#有关文档说明" class="headerlink" title="有关文档说明"></a>有关文档说明</h2><p><a href="https://cli.vuejs.org/zh/guide/cli-service.html" target="_blank" rel="noopener">vue-cli-3文档 #CLI 服务</a></p>
+<p><a href="https://cli.vuejs.org/zh/guide/mode-and-env.html" target="_blank" rel="noopener">vue-cli-3文档 #环境变量和模式</a></p>
+
+          
         
       
     </div>
@@ -394,9 +391,9 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/21/iosDeveloperSpecification/" itemprop="url">iOS工程开发规范（Swift&ObjC)</a></h2>
+                <a class="post-title-link" href="/2018/07/21/iosDeveloperSpecification/" itemprop="url">iOS工程开发规范（Swift&ObjC)</a></h1>
         
 
         <div class="post-meta">
@@ -448,22 +445,102 @@
       
         
           
-          一、编码风格1.缩进。使用XCode默认Tab缩进（每单位4个空格长度）
-2.运算符格式。运算左右两侧必须加同等空格
+            <h2 id="一、编码风格"><a href="#一、编码风格" class="headerlink" title="一、编码风格"></a>一、编码风格</h2><p>1.缩进。使用XCode默认Tab缩进（每单位4个空格长度）</p>
+<p>2.运算符格式。运算左右两侧必须加同等空格</p>
+<blockquote>
+<p>不推荐使用++、–运算符</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a + b</span><br><span class="line">count += 1</span><br><span class="line">max = a &gt; b ? a : b</span><br></pre></td></tr></table></figure>
+<p>3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int func() &#123;</span><br><span class="line">    /* ....  */    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)foo:(id)arge &#123;</span><br><span class="line">	/* ....  */  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (x)&#123; </span><br><span class="line">	/* ... */  </span><br><span class="line">&#125;else if (y)&#123;</span><br><span class="line">	/* ... */  </span><br><span class="line">&#125;else&#123;</span><br><span class="line">	/* ... */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    /* ... */</span><br><span class="line">&#125;while(x);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">switch (x)&#123;</span><br><span class="line">case 1 :</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">	</span><br><span class="line">case 1 :</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">	</span><br><span class="line">default:	</span><br><span class="line">	/* ... */</span><br><span class="line">	break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.空格。<code>-/+</code> 后边和方法名后边应当加一个空格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)foo &#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、宏定义和常量"><a href="#二、宏定义和常量" class="headerlink" title="二、宏定义和常量"></a>二、宏定义和常量</h2><p>1.使用const声明常量，不推荐用宏定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const NSString * thisIsUserDesc = @&quot;hello world&quot;;</span><br></pre></td></tr></table></figure>
+<p>2.多行的宏定义要用”do…while”来封装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#define func(a,b,c) \</span><br><span class="line">do &#123; \</span><br><span class="line">    do_something(a); \</span><br><span class="line">    do_something(b); \</span><br><span class="line">    do_something(c); \</span><br><span class="line">&#125;while(0)</span><br></pre></td></tr></table></figure>
+<p>3.定义枚举类型使用<code>NS_ENUM</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSUInteger, UISearchBarStyle) &#123;</span><br><span class="line">    UISearchBarStyleDefault,    // currently UISearchBarStyleProminent</span><br><span class="line">    UISearchBarStyleProminent,  // used my Mail, Messages and Contacts</span><br><span class="line">    UISearchBarStyleMinimal     // used by Calendar, Notes and Music</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三、命名规范"><a href="#三、命名规范" class="headerlink" title="三、命名规范"></a>三、命名规范</h2><p>1.使用匈牙利+小驼峰命名法，可以清楚的表明起作用；</p>
+<blockquote>
+<p>匈牙利命名：<br>开头字母用变量类型的缩写，其余部分用变量的英文或英文的缩写，要求每个单词第一个字母大写。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface userClass</span><br><span class="line"></span><br><span class="line">///用户总数</span><br><span class="line">@property (nonatomic,assgin) NSInteger userCount;</span><br><span class="line">///用户投资描述  </span><br><span class="line">@property (nonatomic,strong) NSString * userInvestmentDescription;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>2.成员变量必须加下换线前缀，局部变量命名不能有下划线前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@interface userClass</span><br><span class="line">&#123;</span><br><span class="line"> 	NSInteger _userCount;</span><br><span class="line"> 	NSString * _userInvestmentDescription;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>3.方法名要尽量将功能描述清楚<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)insertItemToPageDataSource:(id)item&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func getUserKeyFromCache() -&gt; Int &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.不同功能的文件名酌情加前缀<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Model类型 : MHistory.h/m</span><br><span class="line">API请求类型 : APIHistory.h/m</span><br><span class="line">ViewModel类型 : VMHistory.h/m</span><br></pre></td></tr></table></figure></p>
+<h2 id="四、常见代码功能规范"><a href="#四、常见代码功能规范" class="headerlink" title="四、常见代码功能规范"></a>四、常见代码功能规范</h2><p>1.单例</p>
+<blockquote>
+<p>单例必须命名为 <code>shared</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">swift:</span><br><span class="line"></span><br><span class="line">class UserClass: NSObject &#123;</span><br><span class="line">    public static let shared = UserClass()</span><br><span class="line">    override init() &#123;</span><br><span class="line">        /* 初始化操作 */</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OC:</span><br><span class="line"></span><br><span class="line">static UserClass * sharedObj = nil;</span><br><span class="line"></span><br><span class="line">+ (instancetype)shared &#123;</span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        sharedObj = [[NetSetvices alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    return sharedObj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)init &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.Block和闭包</p>
+<blockquote>
+<p>闭包和Block中建议使用弱变量避免内存泄露</p>
+<p>不能在block中直接使用成员变量，必须使用<code>self-&gt;_property</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">swift-闭包</span><br><span class="line"></span><br><span class="line">leftDataSource.map &#123; [weak self] (model) -&gt; ModelClass in</span><br><span class="line">     return model</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">OC-Block</span><br><span class="line"></span><br><span class="line">__weak typeof(self) weakSelf = self;</span><br><span class="line">[shared addBlock:^(id status) &#123;</span><br><span class="line">	weakSelf.XXX = a</span><br><span class="line">	weakSelf-&gt;_a = a</span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//若引用了相关的组件可使用</span><br><span class="line"></span><br><span class="line">@weakify(self)</span><br><span class="line">[shared addBlock:^(id status) &#123;</span><br><span class="line">	@strongify(self)        </span><br><span class="line">	self.XXX = a</span><br><span class="line">	self-&gt;_a = a</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>3.FMDB和SQLite</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Tips:</span><br><span class="line">推荐使用FMDB二次封装DBManager</span><br><span class="line">用户持久化信息和下载文件存放Documents目录下，缓存文件和临时表放Tmp目录</span><br><span class="line">FMDB打开数据库连接后，无需关闭</span><br><span class="line">增删改操作建议使用异步线程执行</span><br><span class="line"></span><br><span class="line">数据库命名规范:</span><br><span class="line">表 : 全小写,使用tb_前缀( tb_name)</span><br><span class="line">列 : 全小写,使用下划线分隔(user_order_list)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (void)insertAndUpdateAndDelete &#123;</span><br><span class="line">	[_fmDataBaseQueue inDatabase:^(FMDatabase *db) &#123;</span><br><span class="line">       if ([db open]) &#123;</span><br><span class="line">           BOOL result = [db executeUpdate:sql];</span><br><span class="line">           if (!result) &#123;</span><br><span class="line">           		NSLog(@&quot;存储失败&quot;);</span><br><span class="line">        	&#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (Model *)Query &#123;</span><br><span class="line">    Model * model = [Model new];</span><br><span class="line">    if ([_database open]) &#123;</span><br><span class="line">        FMResultSet * result = [_database executeQuery:sql];</span><br><span class="line">        while ([result next]) &#123;</span><br><span class="line">            model.a = [result intForColumn:@&quot;a&quot;];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4.Model</p>
+<blockquote>
+<p>Model中的对象属性必须做初始化或者是懒加载操作，避免调用时出现空指针闪退</p>
+<p>需要转换成其他类型的属性，则使用方法调用结果</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@interface Model</span><br><span class="line"></span><br><span class="line">///创建时间</span><br><span class="line">@property (nonatomic,strong) NSString * createTime;</span><br><span class="line"></span><br><span class="line">///获取Date类型的时间</span><br><span class="line">-(NSDate *)createTimeAsDate;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>5.Block</p>
+<blockquote>
+<p>若使用单变量没有传递参数和返回值的Block类型，则直接使用<code>dispatch_block_t</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic,copy) dispatch_block_t block;</span><br></pre></td></tr></table></figure>
+<p>6.数组</p>
+<blockquote>
+<p>数组 NSArray / Array</p>
+<blockquote>
+<p>数组使用index取值前必须加越界判断，防止出现读取越界崩溃。</p>
+<p>向数组增加数据前一定要做非空判断</p>
+<p>多线程读写数据资源时使用原子性和锁</p>
+</blockquote>
+</blockquote>
+<p>7.赋值和判断</p>
+<blockquote>
+<p>关于if、while的条件,不建议将赋值和判断混在一起<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">反例:</span><br><span class="line">if ( i = 10 )&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">建议:</span><br><span class="line"></span><br><span class="line">i = 10;</span><br><span class="line">if ( i &gt; 0 )&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="Runtime"><a href="#Runtime" class="headerlink" title="Runtime"></a>Runtime</h2><blockquote>
+<p>关于方法交换要慎重使用 ，避免过多使用导致性能下降和运行时内存错误</p>
+<p>使用类别增加属性的时候，要慎重选择内存管理类型</p>
+</blockquote>
+<h2 id="MVVM架构"><a href="#MVVM架构" class="headerlink" title="MVVM架构"></a>MVVM架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">M : Model - 存储数据模型和基本数据类型的转换</span><br><span class="line">V : View - 视图，文本内容格式化显示</span><br><span class="line">VM : ViewModel - 网络请求和数据处理等 </span><br><span class="line">C : Controller - 连接器，处理页面跳转逻辑</span><br></pre></td></tr></table></figure>
+<h2 id="组件化开发原则"><a href="#组件化开发原则" class="headerlink" title="组件化开发原则"></a>组件化开发原则</h2><p>1.尽量以外挂形式开发，不入侵业务代码</p>
+<p>2.多处复用的视图组件应单独做文件封装</p>
+<p>3.代码超过百行的视图组件应单独做封装</p>
+<h2 id="服务化和封装性"><a href="#服务化和封装性" class="headerlink" title="服务化和封装性"></a>服务化和封装性</h2><p>1.APP基础服务应当做全局单例服务</p>
+<blockquote>
+<p>网络请求、缓存组件、用户中心、消息盒子、数据库服务等</p>
+</blockquote>
+<p>2.多处使用的定制化视图控制器应封装基类继承</p>
+<blockquote>
+<p>UIViewController、UINavigationController、UITabbarController、UITableViewController、WebViewController等</p>
+</blockquote>
+<h2 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h2><p>1.使用开源库应当确认源码中不存在后门等操作</p>
+<p>2.测试开源库避免存在内存泄露和bug</p>
+<h2 id="注释和标记"><a href="#注释和标记" class="headerlink" title="注释和标记"></a>注释和标记</h2><p>1.单行注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">///注释1</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.多行注释 。 快捷键 <code>Command + Option + /</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * We need this to calculate the bar ratio. This can sleep,</span><br><span class="line"> * so do not call while holding a lock </span><br><span class="line"> */</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">  ...    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3.标记 Mark</p>
+<blockquote>
+<p>当文件中方法功能多的时候使用mark做方法分类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark – Life Cycle</span><br><span class="line"></span><br><span class="line">#pragma mark - Events</span><br><span class="line"></span><br><span class="line">#pragma mark – Private Methods</span><br><span class="line"></span><br><span class="line">#pragma mark - UITextFieldDelegate</span><br></pre></td></tr></table></figure>
 
-不推荐使用++、–运算符
-
-123a = a + bcount += 1max = a &gt; b ? a : b
-3.括号。左括号不换行，右括号单独占一行，每层级需要加对应的缩进，同一层级缩进对齐
-123int func() &#123;    /* ....  */    
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/21/iosDeveloperSpecification/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -527,9 +604,9 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/08/ios-confusion-17-07-15/" itemprop="url">OC工程代码混淆加密（方法名混淆）</a></h2>
+                <a class="post-title-link" href="/2018/07/08/ios-confusion-17-07-15/" itemprop="url">OC工程代码混淆加密（方法名混淆）</a></h1>
         
 
         <div class="post-meta">
@@ -603,33 +680,34 @@
       
         
           
+            <blockquote>
+<p> 思路来自:念茜的博客</p>
+<p> 概述：将特定前缀的方法名替换成md5码 (like : mix_XXXXX)</p>
+</blockquote>
+<h1 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h1><blockquote>
+<p>创建一个文件夹(like : SCConfuse)</p>
+</blockquote>
+<p><img src="http://cdn.zhangxuchuan.top/2018-7-15-上午9:24:38.png" alt="图片1"></p>
+<blockquote>
+<p>创建一个头文件(like : codeObfuscation.h) 主要作用是通过宏定义替换方法名,在PCH中引用</p>
+</blockquote>
+<blockquote>
+<p>func.list : 被混淆的方法列表</p>
+</blockquote>
+<p><img src="http://cdn.zhangxuchuan.top/2018-7-15-上午9:31:12.png" alt="图片2"></p>
+<blockquote>
+<p>confuse.sh ： 脚本文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">!/bin/bash</span><br><span class="line"></span><br><span class="line">if grep -q DEBUG=1;then</span><br><span class="line">echo &quot;这里是debug模式,不进行混编&quot;</span><br><span class="line">exit 0</span><br><span class="line">else</span><br><span class="line">echo &quot;Release模式,进行混编&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">STRING_SYMBOL_FILE=&quot;$PROJECT_DIR/工程目录/SCConfuse/func.list&quot;</span><br><span class="line"></span><br><span class="line">CONFUSE_FILE=&quot;$PROJECT_DIR/工程目录&quot;</span><br><span class="line"></span><br><span class="line">HEAD_FILE=&quot;$PROJECT_DIR/工程目录/SCConfuse/codeObfuscation.h&quot;</span><br><span class="line"></span><br><span class="line">export LC_CTYPE=C</span><br><span class="line"></span><br><span class="line">#取以.m或.h结尾的文件以+号或-号开头的行 |去掉所有+号或－号|用空格代替符号|n个空格跟着&lt;号 替换成 &lt;号|开头不能是IBAction|用空格split字串取第二部分|排序|去重复|删除空行|删掉以init开头的行&gt;写进func.list</span><br><span class="line">grep -h -r -I  &quot;^[-+]&quot; $CONFUSE_FILE  --include &apos;*.[mh]&apos; |sed &quot;s/[+-]//g&quot;|sed &quot;s/[();,: *\^\/\&#123;]/ /g&quot;|sed &quot;s/[ ]*&lt;/&lt;/&quot;| sed &quot;/^[ ]*IBAction/d&quot;|awk &apos;&#123;split($0,b,&quot; &quot;); print b[2]; &#125;&apos;| sort|uniq |sed &quot;/^$/d&quot;|sed -n &quot;/^mix_/p&quot;&gt;$STRING_SYMBOL_FILE</span><br><span class="line"></span><br><span class="line"># 这里替换的是mix_为前缀的方法 , 需要可以直接在上边修改</span><br><span class="line"></span><br><span class="line">#################</span><br><span class="line"></span><br><span class="line">rm -f $HEAD_FILE</span><br><span class="line"></span><br><span class="line">touch $HEAD_FILE</span><br><span class="line">echo &apos;#ifndef SC_codeObfuscation_h&apos; &gt;&gt; $HEAD_FILE</span><br><span class="line">echo &apos;#define SC_codeObfuscation_h&apos; &gt;&gt; $HEAD_FILE</span><br><span class="line">#echo &quot;//confuse string at `date`&quot; &gt;&gt; $HEAD_FILE</span><br><span class="line"></span><br><span class="line">echo &quot;&quot; &gt;&gt; $HEAD_FILE</span><br><span class="line">cat &quot;$STRING_SYMBOL_FILE&quot; | while read -ra funcName; do</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if [[ ! -z &quot;$funcName&quot; ]]; then</span><br><span class="line"></span><br><span class="line">md5String=$(md5 -s $funcName)</span><br><span class="line"></span><br><span class="line">ramdom=$&#123;md5String##* &#125;</span><br><span class="line"># 这里生成的是固定前缀的方法名，可修改</span><br><span class="line">echo &quot;#define $funcName sc_$ramdom&quot; &gt;&gt; $HEAD_FILE</span><br><span class="line">fi</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;&quot; &gt;&gt; $HEAD_FILE</span><br><span class="line">echo &quot;#endif&quot; &gt;&gt; $HEAD_FILE</span><br></pre></td></tr></table></figure>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>1.需要将confuse.sh添加到Build Phasses -&gt; Run Script中</p>
+<blockquote>
+<p>内容目录就是文件的所在路径</p>
+</blockquote>
+<p><img src="http://cdn.zhangxuchuan.top/2018-7-15-上午9:41:36.png" alt="图片3"></p>
+<p>2.编译</p>
+<p>每次增加新的需要编译的方法就需要先执行build操作 ，生成混淆头文件后再进行打包。</p>
+
           
- 思路来自:念茜的博客
- 概述：将特定前缀的方法名替换成md5码 (like : mix_XXXXX)
-
-文件
-创建一个文件夹(like : SCConfuse)
-
-
-
-创建一个头文件(like : codeObfuscation.h) 主要作用是通过宏定义替换方法名,在PCH中引用
-
-
-func.list : 被混淆的方法列表
-
-
-
-confuse.sh ： 脚本文件
-
-12345678910
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/08/ios-confusion-17-07-15/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -693,9 +771,9 @@ confuse.sh ： 脚本文件
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/02/e5-85-b3-e4-ba-8eios-e5-b7-a5-e7-a8-8bmvvm-e6-9e-b6-e6-9e-84-e7-9a-84-e5-ae-9e-e8-b7-b5-e5-92-8c-e6-80-9d-e8-80-83/" itemprop="url">关于iOS工程MVVM架构的实践和思考</a></h2>
+                <a class="post-title-link" href="/2018/02/02/e5-85-b3-e4-ba-8eios-e5-b7-a5-e7-a8-8bmvvm-e6-9e-b6-e6-9e-84-e7-9a-84-e5-ae-9e-e8-b7-b5-e5-92-8c-e6-80-9d-e8-80-83/" itemprop="url">关于iOS工程MVVM架构的实践和思考</a></h1>
         
 
         <div class="post-meta">
@@ -780,16 +858,17 @@ confuse.sh ： 脚本文件
       
         
           
-          一、什么是MVVM架构关于MVC和MVVM的介绍在这不做叙述，直接看图理解      
-二、为什么用MVVM架构在工作实践中，我们认为MVVM是MVC的升级版，其核心依然是MVC的分层思想。 当我们在开发一个业务功能非常多、展示样式极其复杂、数据模型繁多的页面时，我们会发现，一个vc将会有上千行的代码，其中会包括各种数据请求、转换、action事件、跳转逻辑等部分，这么一个庞大的vc对于我们后期的
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/02/e5-85-b3-e4-ba-8eios-e5-b7-a5-e7-a8-8bmvvm-e6-9e-b6-e6-9e-84-e7-9a-84-e5-ae-9e-e8-b7-b5-e5-92-8c-e6-80-9d-e8-80-83/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h2 id="一、什么是MVVM架构"><a href="#一、什么是MVVM架构" class="headerlink" title="一、什么是MVVM架构"></a>一、什么是MVVM架构</h2><p>关于MVC和MVVM的介绍在这不做叙述，直接看图理解 <a href="http://cdn.zhangxuchuan.top/mvc16d81619.png" target="_blank" rel="noopener"><img src="http://cdn.zhangxuchuan.top/mvc16d81619.png" alt="mvc16d81619.png"></a> <a href="http://cdn.zhangxuchuan.top/mvvmb27768df.png" target="_blank" rel="noopener"><img src="http://cdn.zhangxuchuan.top/mvvmb27768df.png" alt="mvvmb27768df.png"></a>    </p>
+<h2 id="二、为什么用MVVM架构"><a href="#二、为什么用MVVM架构" class="headerlink" title="二、为什么用MVVM架构"></a>二、为什么用MVVM架构</h2><p>在工作实践中，我们认为MVVM是MVC的升级版，其核心依然是MVC的分层思想。 当我们在开发一个业务功能非常多、展示样式极其复杂、数据模型繁多的页面时，我们会发现，一个vc将会有上千行的代码，其中会包括各种数据请求、转换、action事件、跳转逻辑等部分，这么一个庞大的vc对于我们后期的修改和维护是非常不利的，并且多个页面可能存在共享相同接口的情况，MVC就会出现多处重复代码的情况，也不利于后期的修改。</p>
+<p>这个时候我们就在思考怎么样更高效的为VC做瘦身，并且提高逻辑代码的复用性，而我们最终的解决方案是MVVM。 在我们的实现中，我们基于MVC的分层思想将Controller做了进一步分拆分：</p>
+<blockquote>
+<p>Model ：数据模型（包括数据类型转换逻辑 e.p.：Int -&gt; String , String-&gt;Date , timeintval -&gt;Date等  ）<br>ViewModel ： 数据请求和数据组合逻辑（包括网络请求和数据的处理，最后的数据需要是VC能够直接使用的）<br>Controller：控制器（粘合VM和V，包括视图的各种操作事件和页面跳转等逻辑）<br>View ：视图（将数据展示出来，不建议V持有M）</p>
+</blockquote>
+<p>这样做最大程度的解决的VC臃肿的问题，将网络请求和数据处理和VC隔离。    </p>
+<h2 id="三、什么情况下适合用MVVM"><a href="#三、什么情况下适合用MVVM" class="headerlink" title="三、什么情况下适合用MVVM"></a>三、什么情况下适合用MVVM</h2><p>我们认为MVVM适用的工程有如下情况：</p>
+<h4 id="1-项目内包含大量分页展示列表页面"><a href="#1-项目内包含大量分页展示列表页面" class="headerlink" title="1.项目内包含大量分页展示列表页面"></a>1.项目内包含大量分页展示列表页面</h4><p><em>简述：因为页面都包含分页情况所以这个时候我们建议将VC进一步封装PageVC（包含上拉下拉、空列表处理、PageVM调用等功能），VM封装成PageVM（包含统一的loadByPageAPI的具体实现，pno、psize等通用分页属性）。这种情况下我们创建VC后将VM传入即可实现数据展示。优点：封装度高、代码规范，新手程序员也不会写出烂代码。描述的比较笼统，过后会上传。</em></p>
+<h4 id="2-项目内包含单页面含有多个数据请求逻辑和展示样式"><a href="#2-项目内包含单页面含有多个数据请求逻辑和展示样式" class="headerlink" title="2.项目内包含单页面含有多个数据请求逻辑和展示样式"></a>2.项目内包含单页面含有多个数据请求逻辑和展示样式</h4><h4 id="3-极度的代码洁癖"><a href="#3-极度的代码洁癖" class="headerlink" title="3.极度的代码洁癖"></a>3.极度的代码洁癖</h4><h2 id="四、objc应用实践"><a href="#四、objc应用实践" class="headerlink" title="四、objc应用实践"></a>四、objc应用实践</h2>
+          
         
       
     </div>
@@ -853,9 +932,9 @@ confuse.sh ： 脚本文件
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/ios-e5-b7-a5-e7-a8-8b-e8-87-aa-e5-8a-a8-e6-89-93-e5-8c-85-e5-92-8c-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90/" itemprop="url">iOS工程自动打包和持续集成</a></h2>
+                <a class="post-title-link" href="/2018/01/13/ios-e5-b7-a5-e7-a8-8b-e8-87-aa-e5-8a-a8-e6-89-93-e5-8c-85-e5-92-8c-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90/" itemprop="url">iOS工程自动打包和持续集成</a></h1>
         
 
         <div class="post-meta">
@@ -940,19 +1019,26 @@ confuse.sh ： 脚本文件
       
         
           
-          
-推荐XCode8及后续版本，之前版本命令不同配置开发者帐号的相关证书 
+            <blockquote>
+<p>推荐XCode8及后续版本，之前版本命令不同<br>配置开发者帐号的相关证书 </p>
+</blockquote>
+<h2 id="一、构建：XCode"><a href="#一、构建：XCode" class="headerlink" title="一、构建：XCode"></a>一、构建：XCode</h2><p>1.创建build_Dev.plist文件，将下面文本填入，做相关修改（这些配置可以在xcodebuild -h命令找到）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;plist version=&quot;1.0&quot;&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;method&lt;/key&gt;</span><br><span class="line">&lt;string&gt;development&lt;/string&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;uploadSymbols&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;uploadBitcode&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;compileBitcode&lt;/key&gt;</span><br><span class="line">&lt;false/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;teamID&lt;/key&gt;</span><br><span class="line">&lt;string&gt;你们的开发者teamID&lt;/string&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;</span><br></pre></td></tr></table></figure>
+<p>2.创建一个buildDebug.sh文件，将下面文本copy到文本中并且根据实际情况做相关修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">echo &apos;---------------------------------------------------&apos;</span><br><span class="line">echo &apos;--------------- built start --------------------&apos;</span><br><span class="line">echo &apos;---------------------------------------------------&apos;</span><br><span class="line"></span><br><span class="line">#获得当前文件的目录</span><br><span class="line">FILE_PATH=$(cd \`dirname $0\`; pwd)</span><br><span class="line"></span><br><span class="line">echo &quot;当前文件目录&quot;</span><br><span class="line">cd $FILE_PATH</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#这一步目的是定位到工程目录，如果你的sh文件在工程目录则需要注释掉</span><br><span class="line">cd ../</span><br><span class="line">BASE_PATH=$( pwd)</span><br><span class="line"></span><br><span class="line">echo &quot;当前工程目录&quot;</span><br><span class="line">echo $BASE_PATH</span><br><span class="line"></span><br><span class="line">#***********配置项目</span><br><span class="line">#工程名称(Project的名字)</span><br><span class="line">MWProjectName=&quot;MyProj&quot;</span><br><span class="line">#scheme名字 -可以点击Product-&gt;Scheme-&gt;Manager Schemes...查看</span><br><span class="line">MWScheme=&quot;MyProj&quot;</span><br><span class="line">#工程路径</span><br><span class="line">MWWorkspace=&quot;$BASE_PATH&quot;</span><br><span class="line">#build路径</span><br><span class="line">MWBuildDir=&quot;$BASE_PATH/build&quot;</span><br><span class="line">#Release还是Debug</span><br><span class="line">MWConfiguration=&quot;Debug&quot;</span><br><span class="line">#plist文件名，默认放在工程文件路径的位置</span><br><span class="line">MBPlistName=&quot;$MWWorkspace/sh/build_Dev.plist&quot;</span><br><span class="line">#日期</span><br><span class="line">MWDate=\`date +%Y%m%d%H%M\`</span><br><span class="line">#生成ipa路径</span><br><span class="line">IPAPath=$MWProjectName$MWDate$MWConfiguration</span><br><span class="line">#创建构建和输出的路径</span><br><span class="line">mkdir -p $MWBuildDir</span><br><span class="line"></span><br><span class="line">#pod 相关配置</span><br><span class="line"></span><br><span class="line">#更新pod配置</span><br><span class="line">#pod install</span><br><span class="line">#pod upadte</span><br><span class="line"></span><br><span class="line">echo &apos;-------------------- 构建 -------------------------------&apos;</span><br><span class="line"></span><br><span class="line">xcodebuild clean</span><br><span class="line"></span><br><span class="line">xcodebuild archive \</span><br><span class="line">-workspace &quot;$MWProjectName.xcworkspace&quot; \</span><br><span class="line">-scheme &quot;$MWScheme&quot; \</span><br><span class="line">-configuration &quot;$MWConfiguration&quot; \</span><br><span class="line">-archivePath &quot;$MWBuildDir/$MWProjectName&quot; \</span><br><span class="line">clean \</span><br><span class="line">build \</span><br><span class="line">-derivedDataPath &quot;$MWBuildTempDir&quot;</span><br><span class="line"></span><br><span class="line">echo &apos;-------------------- 生成ipa -------------------------------&apos;</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive \</span><br><span class="line">-archivePath &quot;$MWBuildDir/$MWProjectName.xcarchive&quot; \</span><br><span class="line">-exportPath &quot;$MWBuildDir/$IPAPath&quot; \</span><br><span class="line">-exportOptionsPlist &quot;$MBPlistName&quot;</span><br><span class="line"></span><br><span class="line">echo &apos;-------------------- 上传到蒲公英 -------------------------------&apos;</span><br><span class="line">#open $MWBuildDir</span><br><span class="line"></span><br><span class="line">curl -F &quot;file=@$BASE_PATH/build/$IPAPath/MyProj.ipa&quot; \</span><br><span class="line"> -F &quot;uKey=你的key&quot; \</span><br><span class="line"> -F &quot;\_api\_key=你的key&quot; \</span><br><span class="line"> -F &quot;updateDescription=$1&quot; https://qiniu-storage.pgyer.com/apiv1/app/upload</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>命令行权限 ： chmod a+x  buildDebug.sh</li>
+</ol>
+<p>4.执行命令：直接将buildDebug.sh拖入命令行</p>
+<h2 id="二、分发：蒲公英"><a href="#二、分发：蒲公英" class="headerlink" title="二、分发：蒲公英"></a>二、分发：蒲公英</h2><p>如上最后一段，若不需要分发可注释掉</p>
+<h2 id="三、持续集成：Jenkins"><a href="#三、持续集成：Jenkins" class="headerlink" title="三、持续集成：Jenkins"></a>三、持续集成：Jenkins</h2><p>1、安装。jenkins安装网上教程很多，这里你需要在mac系统上安装，并且配置好相关开发环境（xcode，cocoaPods，开发证书等）</p>
+<p>2、使用。直接选择执行上边的sh脚本</p>
+<h2 id="四、关于上传Appstore的打包配置"><a href="#四、关于上传Appstore的打包配置" class="headerlink" title="四、关于上传Appstore的打包配置"></a>四、关于上传Appstore的打包配置</h2><p>1.配置文件build_Dis.plist</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span><br><span class="line">&lt;plist version=&quot;1.0&quot;&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;method&lt;/key&gt;</span><br><span class="line">&lt;string&gt;app-store&lt;/string&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;uploadSymbols&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;uploadBitcode&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;compileBitcode&lt;/key&gt;</span><br><span class="line">&lt;true/&gt;</span><br><span class="line"></span><br><span class="line">&lt;key&gt;teamID&lt;/key&gt;</span><br><span class="line">&lt;string&gt;你的teamID&lt;/string&gt;</span><br><span class="line"></span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;</span><br></pre></td></tr></table></figure>
+<p>2.脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">echo &apos;---------------------------------------------------&apos;</span><br><span class="line">echo &apos;--------------- built start --------------------&apos;</span><br><span class="line">echo &apos;---------------------------------------------------&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#获得当前文件的目录.本文件放在工程目录中</span><br><span class="line">FILE_PATH=$(cd \`dirname $0\`; pwd)</span><br><span class="line"></span><br><span class="line">cd $FILE_PATH</span><br><span class="line">echo &quot;当前文件目录&quot;</span><br><span class="line"></span><br><span class="line">cd ../</span><br><span class="line"></span><br><span class="line">BASE_PATH=$( pwd)</span><br><span class="line"></span><br><span class="line">echo &quot;当前工程目录&quot;</span><br><span class="line">echo $BASE_PATH</span><br><span class="line"></span><br><span class="line">#***********配置项目</span><br><span class="line">#工程名称(Project的名字)</span><br><span class="line">MWProjectName=&quot;MyProj&quot;</span><br><span class="line">#scheme名字 -可以点击Product-&gt;Scheme-&gt;Manager Schemes...查看</span><br><span class="line">MWScheme=&quot;MyProj&quot;</span><br><span class="line">#工程路径</span><br><span class="line">MWWorkspace=&quot;$BASE_PATH&quot;</span><br><span class="line">#build路径</span><br><span class="line">MWBuildDir=&quot;$BASE_PATH/build&quot;</span><br><span class="line">#Release还是Debug</span><br><span class="line">MWConfiguration=&quot;Release&quot;</span><br><span class="line">#plist文件名，默认放在工程文件路径的位置(正式是build\_Dis.plist,测试build\_Dev.plist)</span><br><span class="line">MBPlistName=&quot;$MWWorkspace/sh/build_Dis.plist&quot;</span><br><span class="line">#日期</span><br><span class="line">MWDate=\`date +%Y%m%d_%H%M\`</span><br><span class="line">#生成ipa路径</span><br><span class="line">IPAPath=$MWProjectName$MWDate$MWConfiguration</span><br><span class="line">#创建构建和输出的路径</span><br><span class="line">mkdir -p $MWBuildDir</span><br><span class="line"></span><br><span class="line">#pod 相关配置</span><br><span class="line"></span><br><span class="line">#更新pod配置</span><br><span class="line">#pod install</span><br><span class="line">#pod upadte</span><br><span class="line"></span><br><span class="line">echo &apos;-------------------- 构建 -------------------------------&apos;</span><br><span class="line"></span><br><span class="line">xcodebuild clean</span><br><span class="line"></span><br><span class="line">xcodebuild archive \</span><br><span class="line">-workspace &quot;$MWProjectName.xcworkspace&quot; \</span><br><span class="line">-scheme &quot;$MWScheme&quot; \</span><br><span class="line">-configuration &quot;$MWConfiguration&quot; \</span><br><span class="line">-archivePath &quot;$MWBuildDir/$MWProjectName&quot; \</span><br><span class="line">clean \</span><br><span class="line">build \</span><br><span class="line">-derivedDataPath &quot;$MWBuildTempDir&quot;</span><br><span class="line"></span><br><span class="line">echo &apos;-------------------- 生成ipa -------------------------------&apos;</span><br><span class="line"></span><br><span class="line">xcodebuild -exportArchive \</span><br><span class="line">-archivePath &quot;$MWBuildDir/$MWProjectName.xcarchive&quot; \</span><br><span class="line">-exportPath &quot;$MWBuildDir/$IPAPath&quot; \</span><br><span class="line">-exportOptionsPlist &quot;$MBPlistName&quot;</span><br><span class="line"></span><br><span class="line">#open $MWBuildDir</span><br><span class="line"></span><br><span class="line">**#最后这一步上传到Appstore还有待验证（[参考这里](http://help.apple.com/itc/apploader/#/apdATD1E53-D1E1A1303-D1E53A1126)）</span><br><span class="line"></span><br><span class="line">#altool地址</span><br><span class="line">ALToolPath=&quot;/Applications/Xcode.app/Contents/Applications/Application Loader.app&quot;</span><br><span class="line"></span><br><span class="line">#validate</span><br><span class="line">&quot;$ALToolPath&quot; --validate-app -f &quot;$MWBuildDir/$IPAPath/MyProj.ipa&quot; -u &quot;帐号&quot; -p &quot;密码&quot; -t ios --output-format xml</span><br><span class="line">#upload</span><br><span class="line">&quot;$ALToolPath&quot; --upload-app -f &quot;$MWBuildDir/$IPAPath/MyProj.ipa&quot; -u &quot;帐号&quot; -p &quot;密码&quot; -t ios --output-format xml**</span><br></pre></td></tr></table></figure>
 
-一、构建：XCode1.创建build_Dev.plist文件，将下面文本填入，做相关修改（这些配置可以在xcodebuild -h命令找到）
-1234567891011121314151617181920212223&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/ios-e5-b7-a5-e7-a8-8b-e8-87-aa-e5-8a-a8-e6-89-93-e5-8c-85-e5-92-8c-e6-8c-81-e7-bb-ad-e9-9b-86-e6-88-90/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1016,9 +1102,9 @@ confuse.sh ： 脚本文件
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/ios-e5-bf-ab-e9-80-9f-e8-8e-b7-e5-8f-96-e6-95-b0-e7-bb-84-e7-9a-84-e6-9c-80-e5-a4-a7-e6-9c-80-e5-b0-8f-e5-80-bc/" itemprop="url">iOS快速获取数组的最大最小值</a></h2>
+                <a class="post-title-link" href="/2018/01/13/ios-e5-bf-ab-e9-80-9f-e8-8e-b7-e5-8f-96-e6-95-b0-e7-bb-84-e7-9a-84-e6-9c-80-e5-a4-a7-e6-9c-80-e5-b0-8f-e5-80-bc/" itemprop="url">iOS快速获取数组的最大最小值</a></h1>
         
 
         <div class="post-meta">
@@ -1103,15 +1189,9 @@ confuse.sh ： 脚本文件
       
         
           
-          获取数组的最大值，oc可以通过valueForKeyPath方法来设置你想要获取的一些数组，比如数组的最大值，最小值，平均值等。下面是实践：1234567891011NSMutableArray* array = [NSMutableArray array]; for (int i = 0; i &lt; 10; i++) &#123;           CGFloat num = arc4ra
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/ios-e5-bf-ab-e9-80-9f-e8-8e-b7-e5-8f-96-e6-95-b0-e7-bb-84-e7-9a-84-e6-9c-80-e5-a4-a7-e6-9c-80-e5-b0-8f-e5-80-bc/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>获取数组的最大值，oc可以通过valueForKeyPath方法来设置你想要获取的一些数组，比如数组的最大值，最小值，平均值等。下面是实践：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray* array = [NSMutableArray array]; </span><br><span class="line">for (int i = 0; i &lt; 10; i++) &#123;     </span><br><span class="line">      CGFloat num = arc4random() % 100 + 1;     </span><br><span class="line">      [array addObject:[NSNumber numberWithFloat:num]]; </span><br><span class="line"> &#125; </span><br><span class="line">  CGFloat maxValue = [[array valueForKeyPath:@&quot;@max.floatValue&quot;] floatValue]; </span><br><span class="line">  CGFloat minValue = [[array valueForKeyPath:@&quot;@min.floatValue&quot;] floatValue];</span><br><span class="line">@&quot;@max.floatValue&quot;（获取最大值）</span><br><span class="line">@&quot;@min.floatValue&quot;（获取最小值）</span><br><span class="line">@&quot;@avg.floatValue&quot; (获取平均值)</span><br><span class="line">@&quot;@count.floatValue&quot;(获取数组大小)</span><br></pre></td></tr></table></figure></p>
+
+          
         
       
     </div>
@@ -1175,9 +1255,9 @@ confuse.sh ： 脚本文件
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/iosDEveloperDefine/" itemprop="url">XCode/iOS开发相关宏定义</a></h2>
+                <a class="post-title-link" href="/2018/01/13/iosDEveloperDefine/" itemprop="url">XCode/iOS开发相关宏定义</a></h1>
         
 
         <div class="post-meta">
@@ -1262,17 +1342,18 @@ confuse.sh ： 脚本文件
       
         
           
-          1.最常用123文件名  : **\_\_FILE\_\_**所在行号: **\_\_LINE\_\_**函数名  : **\_\_PRETTY\_FUNCTION__**
-2.指定的初始化方法12e.p.(.h)- (instancetype)initWithName:(NSString *)name **NS_DESIGNATED_INITIALIZER**;
-3.判断真机或模拟器12345#
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/iosDEveloperDefine/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>1.最常用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">文件名  : **\_\_FILE\_\_**</span><br><span class="line">所在行号: **\_\_LINE\_\_**</span><br><span class="line">函数名  : **\_\_PRETTY\_FUNCTION__**</span><br></pre></td></tr></table></figure></p>
+<p>2.指定的初始化方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">e.p.(.h)</span><br><span class="line">- (instancetype)initWithName:(NSString *)name **NS_DESIGNATED_INITIALIZER**;</span><br></pre></td></tr></table></figure></p>
+<p>3.判断真机或模拟器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#if defined (\_\_i386\_\_) || defined (\_\_x86\_64__) </span><br><span class="line">//模拟器下执行 </span><br><span class="line">#else</span><br><span class="line">//真机下执行 </span><br><span class="line">#endif</span><br></pre></td></tr></table></figure></p>
+<p>4.取大小值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MAX(A,B)</span><br><span class="line">MIN(A,B)</span><br></pre></td></tr></table></figure></p>
+<p>5.判断IPhone版本号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (__IPHONE_OS_VERSION_MAX_ALLOWED == __IPHONE_9_0) &#123;</span><br><span class="line">//如果当前SDK版本为9.0是执行这里的代码</span><br><span class="line">&#125; else &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  6.iOS版本适配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define isIOS8 [[UIDevice currentDevice].systemVersion integerValue] == 8</span><br><span class="line">#define isIOS9 [[UIDevice currentDevice].systemVersion integerValue] == 9</span><br><span class="line">#define isIOS10 [[UIDevice currentDevice].systemVersion integerValue] == 10</span><br><span class="line">#define isIOS11 [[UIDevice currentDevice].systemVersion integerValue] == 11</span><br></pre></td></tr></table></figure></p>
+<p>7.设备类型适配<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define isIPad [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad</span><br><span class="line">#define isIPhone [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone</span><br><span class="line">#define isTV [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomTV</span><br><span class="line">#define isCarPlay [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomCarPlay</span><br></pre></td></tr></table></figure></p>
+<p>8.颜色和字体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define Font(s)     [UIFont systemFontOfSize:s]</span><br><span class="line">#define BoldFont(s) [UIFont boldSystemFontOfSize:s]</span><br><span class="line">#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue &amp; 0xFF0000) &gt;&gt; 16))/255.0 green:((float)((rgbValue &amp; 0xFF00) &gt;&gt; 8))/255.0 blue:((float)(rgbValue &amp; 0xFF))/255.0 alpha:1.0]</span><br><span class="line">#define RGB_COLOR(R, G, B) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:1]</span><br></pre></td></tr></table></figure></p>
+<p>9.获取APP版本号<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define APP_VERSION_String [[[NSBundle mainBundle] infoDictionary] objectForKey:@&quot;CFBundleShortVersionString&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>10.解决NSLog不输出问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#ifdef DEBUG</span><br><span class="line">#define NSLog(FORMAT, ...) fprintf(stderr, &quot;%s(LINE:%zd)(%f):%s\\n&quot;, \[\[\[NSString stringWithUTF8String: \_\_FILE\_\_\] lastPathComponent\] UTF8String\], \_\_LINE\_\_,\[\[NSDate date\] timeIntervalSince1970\], \[\[NSString stringWithFormat: FORMAT, ## \_\_VA\_ARGS__\] UTF8String\]);</span><br><span class="line">#else</span><br><span class="line">#define NSLog(FORMAT, ...) nil</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure></p>
+
+          
         
       
     </div>
@@ -1336,9 +1417,9 @@ confuse.sh ： 脚本文件
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/" itemprop="url">搭建Shadowsocks</a></h2>
+                <a class="post-title-link" href="/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/" itemprop="url">搭建Shadowsocks</a></h1>
         
 
         <div class="post-meta">
@@ -1412,20 +1493,90 @@ confuse.sh ： 脚本文件
       
         
           
+            <blockquote>
+<p>From ：<a href="http://blog.csdn.net/f59130/article/details/74014415" target="_blank" rel="noopener">http://blog.csdn.net/f59130/article/details/74014415</a></p>
+</blockquote>
+<h2 id="1、背景"><a href="#1、背景" class="headerlink" title="1、背景"></a>1、背景</h2><p>科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。<strong>前提是得有信用卡</strong>。</p>
+<ul>
+<li>VPN：在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。</li>
+<li>VPS：Virtual Private Server 虚拟专用服务器技术，将一台服务器分割成多个虚拟专享服务器的优质服务。实现VPS的技术分为容器技术，和虚拟化技术。<strong>简单理解VPS就是一台拥有公网IP的服务器。</strong></li>
+<li>AWS：即Amazon Web Services，是亚马逊（Amazon）公司的云计算IaaS和PaaS平台服务。</li>
+</ul>
+<h2 id="2、注册AWS"><a href="#2、注册AWS" class="headerlink" title="2、注册AWS"></a>2、注册AWS</h2><p>到<a href="http://aws.amazon.com/cn/" target="_blank" rel="noopener">AWS</a>进行注册。注册过程中需要绑定信用卡，会扣<code>$1</code>(预授权)。但需要注意的是，在没有用超的情况下，是免费的，作为SS服务器，只能是流量超额会导致（<code>15GB/月</code>）。注册过程中，需要填写手机号，会有国际长途（手机号默认开通）打进来，告诉你验证码。</p>
+<h2 id="3、创建AWS实例"><a href="#3、创建AWS实例" class="headerlink" title="3、创建AWS实例"></a>3、创建AWS实例</h2><h3 id="1、登录AWS控制台，点击EC2（Elastic-Compute-Cloud）"><a href="#1、登录AWS控制台，点击EC2（Elastic-Compute-Cloud）" class="headerlink" title="1、登录AWS控制台，点击EC2（Elastic Compute Cloud）"></a>1、登录AWS控制台，点击EC2（Elastic Compute Cloud）</h3><p><img src="http://upload-images.jianshu.io/upload_images/4324380-f09cb7f82525e891.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="EC2"> <strong>备注</strong>：第一次开通需要时间，最长不超过24小时。 <img src="http://upload-images.jianshu.io/upload_images/4324380-c71dffe71766925b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="开通AWS"></p>
+<h3 id="2、启动虚拟机"><a href="#2、启动虚拟机" class="headerlink" title="2、启动虚拟机"></a>2、启动虚拟机</h3><p><img src="http://upload-images.jianshu.io/upload_images/4324380-8e05f27e6c7344f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启动虚拟机"> <img src="http://upload-images.jianshu.io/upload_images/4324380-2716ad552530ce18.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="启动实例"> 这里，点击<strong>高级EC2启动实例向导</strong>进行个性化配置。</p>
+<h3 id="3、定制化服务器类型"><a href="#3、定制化服务器类型" class="headerlink" title="3、定制化服务器类型"></a>3、定制化服务器类型</h3><ul>
+<li>选择Amazon 系统映像(AMI) 这里选择，Amazon Linux AMI、RedHat、Ubuntu都行。本文选择的是Ubuntu。 <img src="http://upload-images.jianshu.io/upload_images/4324380-17a201eb78316b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AMI"></li>
+<li>选择实例类型</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/4324380-c04c541d52d392c8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实例类型"></p>
+<ul>
+<li>标签实例 图中标出的3-4两步直接默认配置就行。 <img src="http://upload-images.jianshu.io/upload_images/4324380-229f82ed630dd3a9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></li>
+<li>配置安全组 这里先配置所有流量和端口开放。 <img src="http://upload-images.jianshu.io/upload_images/4324380-73e4bc6a97846b7b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="配置安全组"></li>
+<li>生成秘钥对 <img src="http://upload-images.jianshu.io/upload_images/4324380-d022800585aff62e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="审核"></li>
+<li>创建账单警报 <img src="http://upload-images.jianshu.io/upload_images/4324380-c962f4a7dd2a9b22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="账单警报.png"></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/4324380-bc814395dd202e97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="接收账单警报"></p>
+<h2 id="3、登录服务器"><a href="#3、登录服务器" class="headerlink" title="3、登录服务器"></a>3、登录服务器</h2><p>定制完成后，就可以远程登录了。在实例上右击，点击连接。 <img src="http://upload-images.jianshu.io/upload_images/4324380-78031132c229d1de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="连接"> <img src="http://upload-images.jianshu.io/upload_images/4324380-bfa4aa4009e2fc13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="连接到实例"> 下面主要是通过Xshell连接到EC2，具体看<a href="http://jingyan.baidu.com/article/a3a3f811d5fc338da2eb8a00.html" target="_blank" rel="noopener">教程</a>。<strong>注意</strong>：用户名那里填写<strong>ubuntu</strong>，否则会出现 <em>所选的用户密钥未在远程主机上注册 请再试一次</em>。</p>
+<h2 id="4、安装Shadowsocks"><a href="#4、安装Shadowsocks" class="headerlink" title="4、安装Shadowsocks"></a>4、安装Shadowsocks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 获取root权限</span><br><span class="line">sudo -s</span><br><span class="line"># 更新apt-get</span><br><span class="line">apt-get update</span><br><span class="line"># 安装python包管理工具</span><br><span class="line">apt-get install python-setuptools</span><br><span class="line">apt-get install python-pip</span><br><span class="line"># 安装shadowsocks</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+<h2 id="5、配置Shadowsocks"><a href="#5、配置Shadowsocks" class="headerlink" title="5、配置Shadowsocks"></a>5、配置Shadowsocks</h2><p>创建配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /etc/shadowsocks</span><br><span class="line">vim /etc/shadowsocks/ss.json</span><br></pre></td></tr></table></figure>
+<p>配置文件内容(任选一种，当配置文件发生改变则需要重新启动ss服务才可生效)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">单帐号：</span><br><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;server_port&quot;:8000,</span><br><span class="line">&quot;local_address&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;password&quot;:&quot;pwd&quot;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">&quot;fast_open&quot;:false,</span><br><span class="line">&quot;workers&quot;: 1</span><br><span class="line">&#125;</span><br><span class="line">多帐号:</span><br><span class="line">&#123;</span><br><span class="line">&quot;server&quot;:&quot;0.0.0.0&quot;,</span><br><span class="line">&quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">&quot;local_port&quot;:1080,</span><br><span class="line">&quot;port_password&quot;: &#123;</span><br><span class="line"> &quot;8000&quot;: &quot;pwd1&quot; ,</span><br><span class="line"> &quot;8001&quot;: &quot;pwd2&quot; ,</span><br><span class="line"> &quot;8002&quot;: &quot;pwd3&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;timeout&quot;:300,</span><br><span class="line">&quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">&quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置字段</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> server</td>
+<td>服务端监听地址(IPv4或IPv6)</td>
+</tr>
+<tr>
+<td>server_port</td>
+<td>服务端端口</td>
+</tr>
+<tr>
+<td>local_address</td>
+<td>本地监听地址，缺省为127.0.0.1</td>
+</tr>
+<tr>
+<td>local_port</td>
+<td>本地监听端口</td>
+</tr>
+<tr>
+<td>password</td>
+<td>用以加密的密匙</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>超时时间（秒）</td>
+</tr>
+<tr>
+<td>method</td>
+<td>加密方法，默认为aes-256-cfb，更多请查阅<a href="https://github.com/shadowsocks/shadowsocks/wiki/Encryption" target="_blank" rel="noopener">Encryption</a></td>
+</tr>
+<tr>
+<td>fast_open</td>
+<td>是否启用<a href="https://github.com/shadowsocks/shadowsocks/wiki/TCP-Fast-Open" target="_blank" rel="noopener">TCP-Fast-Open</a>，true或者false</td>
+</tr>
+<tr>
+<td>workers</td>
+<td><a href="https://github.com/shadowsocks/shadowsocks/wiki/Workers" target="_blank" rel="noopener">worker数量</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="6、启动Shadowsocks"><a href="#6、启动Shadowsocks" class="headerlink" title="6、启动Shadowsocks"></a>6、启动Shadowsocks</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">启动：sudo ssserver -c /etc/shadowsocks/ss.json -d start</span><br><span class="line">停止：sudo ssserver -c /etc/shadowsocks/ss.json -d stop </span><br><span class="line">重启：sudo ssserver -c /etc/shadowsocks/ss.json -d restart</span><br></pre></td></tr></table></figure>
+<h2 id="7、设置SS为开机自启动"><a href="#7、设置SS为开机自启动" class="headerlink" title="7、设置SS为开机自启动"></a>7、设置SS为开机自启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/rc.local</span><br><span class="line"></span><br><span class="line">添加如下命令：</span><br><span class="line">sudo ssserver -c /etc/shadowsocks/ss.json -d start</span><br></pre></td></tr></table></figure>
+<h2 id="8、本地设备连接到Shadowsocks服务器"><a href="#8、本地设备连接到Shadowsocks服务器" class="headerlink" title="8、本地设备连接到Shadowsocks服务器"></a>8、本地设备连接到Shadowsocks服务器</h2><p>到GitHub下载最新的客户端：<br><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">Windows客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-iOS/releases" target="_blank" rel="noopener">macOS客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-qt5/releases" target="_blank" rel="noopener">Linux客户端下载地址</a><br><a href="https://github.com/shadowsocks/shadowsocks-android/releases" target="_blank" rel="noopener">Android客户端</a> </p>
+<p>安装之后，添加服务器，地址为AWS的外网地址，登录AWS控制台，查看正在运行中的实例，找到公有ip。 端口号为刚才配置Shadowsocks服务器时的端口号，密码也是刚才配置的(当然密码可以自行设置)，设置完之后保存。 关于Windows下使用Shadowsocks的方法，还请自行搜索。</p>
+<h2 id="9、防止AWS到期或其他原因扣费"><a href="#9、防止AWS到期或其他原因扣费" class="headerlink" title="9、防止AWS到期或其他原因扣费"></a>9、防止AWS到期或其他原因扣费</h2><p>为了防止流量超出或者此悲剧发生。 需要设置账单警报，前面已经介绍了。 还有就是在<strong>安全组</strong>下面设置入站和出站规则。 一言以蔽之，到期前把你账户下所有AWS实例关闭并销毁。</p>
+
           
-From ：http://blog.csdn.net/f59130/article/details/74014415
-
-1、背景科学上网是现在很多人所需要的，尤其是需要上Google、Facebook等。新手不建议直接买VPN，个人认为购买VPS搭建自己的海外服务器比较靠谱。然而，购买VPS肯定需要从免费的入手，首推AWS和Google Cloud Platform。前提是得有信用卡。
-
-VPN
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/aws-e5-85-8d-e8-b4-b9-e6-90-ad-e5-bb-bashadowsocks/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1489,9 +1640,9 @@ VPN
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/ubuntu16.04makeswfit/" itemprop="url">Ubuntu16.04安装swift4.1</a></h2>
+                <a class="post-title-link" href="/2018/01/13/ubuntu16.04makeswfit/" itemprop="url">Ubuntu16.04安装swift4.1</a></h1>
         
 
         <div class="post-meta">
@@ -1576,19 +1727,23 @@ VPN
       
         
           
-          
-官网 : https://swift.org Project框架：http://perfect.org
+            <blockquote>
+<p>官网 : <a href="https://swift.org/" target="_blank" rel="noopener">https://swift.org</a> Project框架：<a href="http://perfect.org/" target="_blank" rel="noopener">http://perfect.org</a></p>
+</blockquote>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h2><p>近年各种开发都进行了跨平台的尝试，苹果作为最前沿的公司之一也不甘落后，swift支持在Ubuntu环境运行，swift服务端框架（Project）也趋于稳定，我们可以尝试用之开发服务端项目</p>
+<h2 id="2-安装Swift"><a href="#2-安装Swift" class="headerlink" title="2.安装Swift"></a>2.安装Swift</h2><p>step.0 下载文件(自己选择)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://swift.org/builds/swift-4.1-branch/ubuntu1604/swift-4.1-DEVELOPMENT-SNAPSHOT-2017-12-04-a/swift-4.1-DEVELOPMENT-SNAPSHOT-2017-12-04-a-ubuntu16.04.tar.gz.sig</span><br><span class="line">$ wget https://swift.org/builds/swift-4.1-branch/ubuntu1604/swift-4.1-DEVELOPMENT-SNAPSHOT-2017-12-04-a/swift-4.1-DEVELOPMENT-SNAPSHOT-2017-12-04-a-ubuntu16.04.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>step.1 安装依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install clang libicu-dev</span><br></pre></td></tr></table></figure></p>
+<p>step.2 导入PGP Key<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -</span><br></pre></td></tr></table></figure></p>
+<p>step.3 验证PGP Signature<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gpg --verify swift-4.1-DEVELOPMENT-SNAPSHOT-2017-12-04-a-ubuntu16.04.tar.gz.sig</span><br></pre></td></tr></table></figure></p>
+<p>如果输出Good Signature..表示成功，Error失败就先略过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gpg: Good signature from &quot;Swift Automatic Signing Key #2 &lt;swift-infrastructure@swift.org&gt;&quot;</span><br><span class="line">gpg: WARNING: This key is not certified with a trusted signature!</span><br><span class="line">gpg: There is no indication that the signature belongs to the owner.</span><br></pre></td></tr></table></figure></p>
+<p>step.4 解压Swift</p>
+<p>解压到 /etc/swift4.1/<br>注意下一级目录应该直接是usr ： /etc/swift4.1/usr</p>
+<p>step.5 添加环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim ~/.bashrc </span><br><span class="line">在末尾加入SWIFT_HOME变量</span><br><span class="line">export SWIFT_HOME=/etc/swift4.1</span><br><span class="line">export PATH=$&#123;SWIFT_HOME&#125;/usr/bin:$PATH</span><br><span class="line">保存并退出。运行以下命令使之立即生效。</span><br><span class="line">$ source ~/.bashrc</span><br></pre></td></tr></table></figure></p>
+<p>setp.6 激活signing key</p>
+<p>运行以下命令激活Signing Key.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget -q -O - https://swift.org/keys/automatic-signing-key-1.asc | gpg --import -</span><br><span class="line">运行以下命令导入Signing Key</span><br><span class="line">$ wget -q -O - https://swift.org/keys/release-key-swift-4.x.asc | gpg --import -</span><br></pre></td></tr></table></figure></p>
+<p>setp.7 验证swift安装状态<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ swift --version</span><br><span class="line">输出以下类似文本表示成功</span><br><span class="line">Swift version 4.1-dev (LLVM cdc9836644, Clang f0e38d2044, Swift 7a0598c7dd)</span><br><span class="line">Target: x86_64-unknown-linux-gnu</span><br></pre></td></tr></table></figure></p>
 
-1.前言近年各种开发都进行了跨平台的尝试，苹果作为最前沿的公司之一也不甘落后，swift支持在Ubuntu环境运行，swift服务端框架（Project）也趋于稳定，我们可以尝试用之开发服务端项目
-2.安装Swiftstep.0 下载文件(自己选择)12$ wget https://swif
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/ubuntu16.04makeswfit/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
         
       
     </div>
@@ -1652,9 +1807,9 @@ VPN
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/Ubuntu16.04makegolang/" itemprop="url">Ubuntu16.04下搭建Go语言环境</a></h2>
+                <a class="post-title-link" href="/2018/01/13/Ubuntu16.04makegolang/" itemprop="url">Ubuntu16.04下搭建Go语言环境</a></h1>
         
 
         <div class="post-meta">
@@ -1739,16 +1894,11 @@ VPN
       
         
           
-          1.安装12$ sudo apt-get update$ sudo apt-get install golang-go
-2.测试123456789101112$ vim helloWorld.gopackage mainimport (&quot;fmt&quot;&quot;runtime&quot;)func main() &#123;fmt.Println(&quot;Hellow Worl
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/Ubuntu16.04makegolang/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <p>1.安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install golang-go</span><br></pre></td></tr></table></figure></p>
+<p>2.测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ vim helloWorld.go</span><br><span class="line"></span><br><span class="line">package main</span><br><span class="line">import (</span><br><span class="line">&quot;fmt&quot;</span><br><span class="line">&quot;runtime&quot;</span><br><span class="line">)</span><br><span class="line">func main() &#123;</span><br><span class="line">fmt.Println(&quot;Hellow World!&quot;, runtime.Version())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ go run helloWorld.go</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输出（这里表示成功）</span><br><span class="line">Hello World! go1.6.2</span><br></pre></td></tr></table></figure>
+
+          
         
       
     </div>
@@ -1865,16 +2015,6 @@ VPN
           
 
           
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/zhangxuchuan827" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-            </div>
-          
 
           
           
@@ -1919,7 +2059,7 @@ VPN
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -2018,13 +2158,6 @@ VPN
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
 
   
 

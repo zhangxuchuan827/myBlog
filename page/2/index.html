@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next gemini use-motion" lang="zh-Hans">
+<html class="theme-next muse use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="张绪川,iOS开发" />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -93,7 +93,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Gemini',
+    scheme: 'Muse',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -157,7 +157,7 @@
       </a>
     </div>
       
-        <h1 class="site-subtitle" itemprop="description">Nothing's impossible.</h1>
+        <p class="site-subtitle">Nothing's impossible.</p>
       
   </div>
 
@@ -183,26 +183,6 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
           </a>
         </li>
       
@@ -266,9 +246,9 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/ios-app-e5-8f-8d-e7-bc-96-e8-af-91-e5-88-9d-e7-ba-a7-e6-94-bb-e7-95-a5/" itemprop="url">iOS APP反编译初级攻略</a></h2>
+                <a class="post-title-link" href="/2018/01/13/ios-app-e5-8f-8d-e7-bc-96-e8-af-91-e5-88-9d-e7-ba-a7-e6-94-bb-e7-95-a5/" itemprop="url">iOS APP反编译初级攻略</a></h1>
         
 
         <div class="post-meta">
@@ -353,21 +333,18 @@
       
         
           
-          一.测试工具Hopper Disassembler 
-class-dump 
-二.测试过程(一)class-dump 
-说明:class-dump用法简单,但只能反编译出头文件(.h)
-使用:1$  class-dump -H  输入源.app  -o 输出目录
-输入命令行后,点击return键,稍等一会就会反编译成功,这时,在刚刚的输出目录就可以看到当前APP所有的.h头文件
-(二)Hopper
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/ios-app-e5-8f-8d-e7-bc-96-e8-af-91-e5-88-9d-e7-ba-a7-e6-94-bb-e7-95-a5/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h1 id="一-测试工具"><a href="#一-测试工具" class="headerlink" title="一.测试工具"></a>一.测试工具</h1><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/HopperDisassemblerv3.zip" target="_blank" rel="noopener">Hopper Disassembler </a></p>
+<p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/class-dump-3.5.dmg" target="_blank" rel="noopener">class-dump </a></p>
+<h2 id="二-测试过程"><a href="#二-测试过程" class="headerlink" title="二.测试过程"></a>二.测试过程</h2><p>(一)class-dump </p>
+<p>说明:class-dump用法简单,但只能反编译出头文件(.h)</p>
+<p>使用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  class-dump -H  输入源.app  -o 输出目录</span><br></pre></td></tr></table></figure></p>
+<p>输入命令行后,点击return键,稍等一会就会反编译成功,这时,在刚刚的输出目录就可以看到当前APP所有的.h头文件</p>
+<p>(二)Hopper Disassembler</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ft8lswtd7yj31070kraem.jpg" alt="概览"></p>
+<p>先解压ipa包（可以直接改成zip后缀解压），然后找到二进制文件<br><img src="https://ws2.sinaimg.cn/large/006tKfTcly1ft8lsv7uq5j30hm0c3myq.jpg" alt="获取文件1"><br><img src="https://ws3.sinaimg.cn/large/006tKfTcly1ft8lsrtqydj30t20n1tm6.jpg" alt="获取二进制文件"><br><img src="https://ws4.sinaimg.cn/large/006tKfTcly1ft8lsoeckhj310c0kvjxr.jpg" alt="选择信息"><br><img src="https://ws1.sinaimg.cn/large/006tKfTcly1ft8lsm9tv3j310a0kzwt8.jpg" alt="结果"></p>
+<h2 id="三-最后的建议"><a href="#三-最后的建议" class="headerlink" title="三.最后的建议:"></a><strong>三.最后的建议:</strong></h2><p>建议使用代码混淆编译<a href="https://zhangxuchuan.top/2018/07/08/ios-confusion-17-07-15/" target="_blank" rel="noopener">https://zhangxuchuan.top/2018/07/08/ios-confusion-17-07-15/</a></p>
+
+          
         
       
     </div>
@@ -431,9 +408,9 @@ class-dump
 
         
         
-          <h2 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/13/macosDeveloperTools/" itemprop="url">MacOS常用开发工具</a></h2>
+                <a class="post-title-link" href="/2018/01/13/macosDeveloperTools/" itemprop="url">MacOS常用开发工具</a></h1>
         
 
         <div class="post-meta">
@@ -507,20 +484,14 @@ class-dump
       
         
           
-          1.Git/SVNSmartSVN 、Cornerstone、SourceTree
-2.数据包分析和接口调试HTTPScoop、Postman、Wireshark
-3.科学上网ShadowsocksX-NG.zip
-4.文本编辑器Sublime Text、MacDown
-5.编译器HBuilder , XCode , IDEA ,
-6.反编译Hopper Disassembler v3、class
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/13/macosDeveloperTools/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+            <h1 id="1-Git-SVN"><a href="#1-Git-SVN" class="headerlink" title="1.Git/SVN"></a>1.Git/SVN</h1><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/SmartSVN%209.1.zip" target="_blank" rel="noopener">SmartSVN</a> 、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/Cornerstone.zip" target="_blank" rel="noopener">Cornerstone</a>、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/SourceTree.zip" target="_blank" rel="noopener">SourceTree</a></p>
+<h4 id="2-数据包分析和接口调试"><a href="#2-数据包分析和接口调试" class="headerlink" title="2.数据包分析和接口调试"></a>2.数据包分析和接口调试</h4><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/HTTPScoop.zip" target="_blank" rel="noopener">HTTPScoop</a>、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/Postman.zip" target="_blank" rel="noopener">Postman</a>、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/Wireshark.zip" target="_blank" rel="noopener">Wireshark</a></p>
+<h4 id="3-科学上网"><a href="#3-科学上网" class="headerlink" title="3.科学上网"></a>3.科学上网</h4><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/ShadowsocksX-NG.zip" target="_blank" rel="noopener">ShadowsocksX-NG.zip</a></p>
+<h4 id="4-文本编辑器"><a href="#4-文本编辑器" class="headerlink" title="4.文本编辑器"></a>4.文本编辑器</h4><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/Sublime%20Text.zip" target="_blank" rel="noopener">Sublime Text</a>、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/MacDown.zip" target="_blank" rel="noopener">MacDown</a></p>
+<h4 id="5-编译器"><a href="#5-编译器" class="headerlink" title="5.编译器"></a>5.编译器</h4><p><a href="http://www.dcloud.io/" target="_blank" rel="noopener">HBuilder</a> , <a href="https://developer.apple.com/download/more/" target="_blank" rel="noopener">XCode</a> , IDEA ,</p>
+<h4 id="6-反编译"><a href="#6-反编译" class="headerlink" title="6.反编译"></a>6.反编译</h4><p><a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/HopperDisassemblerv3.zip" target="_blank" rel="noopener">Hopper Disassembler v3</a>、<a href="http://ohvjgcwh9.bkt.clouddn.com/MacApp/class-dump-3.5.dmg" target="_blank" rel="noopener">class-dump</a></p>
+
+          
         
       
     </div>
@@ -637,16 +608,6 @@ class-dump
           
 
           
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/zhangxuchuan827" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-            </div>
-          
 
           
           
@@ -691,7 +652,7 @@ class-dump
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -790,13 +751,6 @@ class-dump
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
 
   
 
